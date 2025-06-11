@@ -308,44 +308,29 @@
         // REEMPLAZA ESTE BLOQUE 'firebaseConfig' CON TU PROPIO OBJETO DE CONFIGURACIÓN.
         // Lo encuentras en tu proyecto de Firebase:
         // Engranaje (Configuración del proyecto) > Tus apps > SDK de Firebase > Configuración (CDN)
-        const firebaseConfig = {
-            apiKey: "AIzaSyBgT8Aib-XdZu1aWvBPCzZcn0ra9tsUQxc",
-            authDomain: "calculadora-elemental.firebaseapp.com",
-            projectId: "calculadora-elemental",
-            storageBucket: "calculadora-elemental.appspot.com",
-            messagingSenderId: "582802877245",
-            appId: "1:582802877245:web:ea8248c42a8d2c73beb354"
-        };
-        
-        const appId = "calculadora-bazi"; 
+ <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // --- Inicialización de Firebase ---
-        let db;
-        let isFirebaseReady = false;
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBgT8Aib-XdZu1aWvBPCzZcn0ra9tsUQxc",
+    authDomain: "calculadora-elemental.firebaseapp.com",
+    projectId: "calculadora-elemental",
+    storageBucket: "calculadora-elemental.firebasestorage.app",
+    messagingSenderId: "582802877245",
+    appId: "1:582802877245:web:ea8248c42a8d2c73beb354",
+    measurementId: "G-HHKB1FNEVG"
+  };
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            const auth = getAuth(app);
-            setLogLevel('debug'); 
-            await signInAnonymously(auth);
-            console.log("Autenticación con Firebase exitosa.");
-            isFirebaseReady = true;
-        } catch (error) {
-            console.error("Error al inicializar Firebase:", error);
-            const errorDiv = document.getElementById('dayMasterError');
-            if (errorDiv) {
-                if (error.code === 'auth/admin-restricted-operation') {
-                     errorDiv.textContent = "Error: Habilita el Acceso Anónimo en tu panel de Firebase (Authentication > Sign-in method).";
-                } else {
-                     errorDiv.textContent = "El contador y suscripción no están disponibles ahora.";
-                }
-            }
-            const runCounter = document.getElementById('run-counter');
-            if (runCounter) runCounter.style.display = 'none';
-            const newsletterSection = document.querySelector('.newsletter-section');
-            if(newsletterSection) newsletterSection.style.display = 'none';
-        }
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
         
         // --- Datos de la App ---
         const heavenlyStemsData = [
