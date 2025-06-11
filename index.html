@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcula tu Elemento</title>
+    <title>★ Calcula tu Elemento ★</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -238,7 +238,7 @@
             </section>
             
             <footer class="footer-text">
-                <p>Esta calculadora es solamente para identificar el elemento del Día Maestro.<br>Si desea un análisis más profundo de su carta Bazi escríbenos.</p>
+                <p>Este cálculo es solamente para identificar uno de tus elementos.La información no queda guardada. <br>Para análisis más profundo. Escríbenos.</p>
                 <p id="run-counter" class="calculation-counter">Cálculos realizados: <span>...</span></p>
                 <div class="mt-4 flex flex-col items-center gap-4 text-xs">
                      <a href="https://w.app/v9rd8l" target="_blank" rel="noopener noreferrer" class="social-link font-semibold text-gray-700">
@@ -318,19 +318,43 @@
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyBgT8Aib-XdZu1aWvBPCzZcn0ra9tsUQxc",
-    authDomain: "calculadora-elemental.firebaseapp.com",
-    projectId: "calculadora-elemental",
-    storageBucket: "calculadora-elemental.firebasestorage.app",
-    messagingSenderId: "582802877245",
-    appId: "1:582802877245:web:ea8248c42a8d2c73beb354",
-    measurementId: "G-HHKB1FNEVG"
-  };
+            apiKey: "AIzaSyBgT8Aib-XdZu1aWvBPCzZcn0ra9tsUQxc",
+            authDomain: "calculadora-elemental.firebaseapp.com",
+            projectId: "calculadora-elemental",
+            storageBucket: "calculadora-elemental.appspot.com",
+            messagingSenderId: "582802877245",
+            appId: "1:582802877245:web:ea8248c42a8d2c73beb354"
+        };
+        
+        const appId = "calculadora-bazi"; 
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+        // --- Inicialización de Firebase ---
+        let db;
+        let isFirebaseReady = false;
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            const auth = getAuth(app);
+            setLogLevel('debug'); 
+            await signInAnonymously(auth);
+            console.log("Autenticación con Firebase exitosa.");
+            isFirebaseReady = true;
+        } catch (error) {
+            console.error("Error al inicializar Firebase:", error);
+            const errorDiv = document.getElementById('dayMasterError');
+            if (errorDiv) {
+                if (error.code === 'auth/admin-restricted-operation' || error.code === 'auth/operation-not-allowed') {
+                     errorDiv.textContent = "Error: Habilita el Acceso Anónimo en tu panel de Firebase (Authentication > Sign-in method).";
+                } else {
+                     errorDiv.textContent = "El contador y suscripción no están disponibles ahora.";
+                }
+            }
+            const runCounter = document.getElementById('run-counter');
+            if (runCounter) runCounter.style.display = 'none';
+            const newsletterSection = document.querySelector('.newsletter-section');
+            if(newsletterSection) newsletterSection.style.display = 'none';
+        }
         
         // --- Datos de la App ---
         const heavenlyStemsData = [
