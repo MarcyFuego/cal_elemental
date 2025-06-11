@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de tu Elemento Bazi</title>
+    <title>Calculadora tu Elemento</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -238,7 +238,7 @@
             </section>
             
             <footer class="footer-text">
-                <p>Este cálculo es solamente para identificar un elemento principal con el que naciste.<br>Para un análisis más profundo. Escríbenos.</p>
+                <p>Esta calculadora es solamente para identificar el elemento del Día Maestro.<br>Si desea un análisis más profundo de su carta Bazi escríbenos.</p>
                 <p id="run-counter" class="calculation-counter">Cálculos realizados: <span>...</span></p>
                 <div class="mt-4 flex flex-col items-center gap-4 text-xs">
                      <a href="https://w.app/v9rd8l" target="_blank" rel="noopener noreferrer" class="social-link font-semibold text-gray-700">
@@ -308,29 +308,17 @@
         // REEMPLAZA ESTE BLOQUE 'firebaseConfig' CON TU PROPIO OBJETO DE CONFIGURACIÓN.
         // Lo encuentras en tu proyecto de Firebase:
         // Engranaje (Configuración del proyecto) > Tus apps > SDK de Firebase > Configuración (CDN)
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgT8Aib-XdZu1aWvBPCzZcn0ra9tsUQxc",
+            authDomain: "calculadora-elemental.firebaseapp.com",
+            projectId: "calculadora-elemental",
+            storageBucket: "calculadora-elemental.appspot.com",
+            messagingSenderId: "582802877245",
+            appId: "1:582802877245:web:ea8248c42a8d2c73beb354"
+        };
+        
+        const appId = "calculadora-bazi"; // Puedes poner un nombre identificador aquí
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBgT8Aib-XdZu1aWvBPCzZcn0ra9tsUQxc",
-    authDomain: "calculadora-elemental.firebaseapp.com",
-    projectId: "calculadora-elemental",
-    storageBucket: "calculadora-elemental.firebasestorage.app",
-    messagingSenderId: "582802877245",
-    appId: "1:582802877245:web:ea8248c42a8d2c73beb354",
-    measurementId: "G-HHKB1FNEVG"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
         // --- Inicialización de Firebase ---
         let db;
         try {
