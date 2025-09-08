@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Modak&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Modak:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- ========= META TAGS PARA COMPARTIR EN REDES SOCIALES (OG) ========= -->
     <meta property="og:title" content="★★ Descubre tu Elemento ★★">
@@ -363,29 +364,57 @@
   const shareFeedback = $id('share-feedback');
   const SHARE_W=1080, SHARE_H=1920, SHARE_MARGIN=0.08;
   async function composeShareCanvas(container, bg){
+    // Render DOM → canvas fuente
     const srcCanvas = await window.html2canvas(container, { backgroundColor: bg, scale: 2, useCORS: true });
-    const out=document.createElement('canvas'); out.width=SHARE_W; out.height=SHARE_H; const ctx=out.getContext('2d');
-    ctx.fillStyle=bg; ctx.fillRect(0,0,SHARE_W,SHARE_H);
+
+    // Lienzo final 1080x1920
+    const out = document.createElement('canvas');
+    const ctx = out.getContext('2d');
+    out.width = SHARE_W; out.height = SHARE_H;
+
+    // Fondo sólido del elemento
+    ctx.fillStyle = bg; ctx.fillRect(0,0,SHARE_W,SHARE_H);
+
+    // Ajuste de la tarjeta al lienzo final con margen
     const targetW=SHARE_W*(1-SHARE_MARGIN*2), targetH=SHARE_H*(1-SHARE_MARGIN*2);
     const scale=Math.min(targetW/srcCanvas.width, targetH/srcCanvas.height);
     const drawW=Math.round(srcCanvas.width*scale), drawH=Math.round(srcCanvas.height*scale);
     const dx=Math.round((SHARE_W-drawW)/2), dy=Math.round((SHARE_H-drawH)/2);
     ctx.drawImage(srcCanvas,dx,dy,drawW,drawH);
 
-    // === Overlay: icono de marca en la imagen compartida ===
+    // === Overlay: icono de marca (SVG inline) ===
     const BRAND_SVG = `<?xml version="1.0" encoding="UTF-8"?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><defs><linearGradient id='g1' x1='0' y1='0' x2='0' y2='1'><stop offset='0%' stop-color='#ff7a00'/><stop offset='100%' stop-color='#ff3d3d'/></linearGradient><radialGradient id='g2' cx='50%' cy='88%' r='110%'><stop offset='0%' stop-color='#fff6a6'/><stop offset='100%' stop-color='#ffd84d'/></radialGradient></defs><circle cx='128' cy='128' r='112' fill='#d8b4fe'/><path d='M148 46c-24 18-40 44-36 66 4 22 24 30 24 50 0 20-16 36-36 36s-36-16-36-38c0-32 28-52 48-72 10-10 14-22 16-36 10 7 18 20 20 34 2 12-4 24-2 34 2 12 10 18 18 18 8 0 12-6 14-12 12 12 18 26 18 42 0 36-30 66-66 66s-66-30-66-66c0-26 12-48 28-64 16-16 38-28 48-42z' fill='url(#g1)'/><path d='M128 100c-16 14-24 28-18 44 6 16 18 24 32 24s28-12 28-28c0-12-8-22-16-32-6-8-8-14-8-20-10 10-16 16-18 16z' fill='url(#g2)' transform='translate(0,18)'/></svg>`;
     const brandUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(BRAND_SVG);
     await new Promise((resolve)=>{ const img=new Image(); img.onload=()=>{ const size=Math.round(Math.min(SHARE_W,SHARE_H)*0.18); const m=40; const x=SHARE_W - size - m; const y=SHARE_H - size - m; ctx.globalAlpha=0.95; ctx.drawImage(img,x,y,size,size); ctx.globalAlpha=1; resolve(); }; img.src=brandUrl; });
 
+    // === Overlay: tag IG + derechos ===
+    const year = new Date().getFullYear();
+    const line1 = '@comedia.elemental';
+    const line2 = `© ${year} Marcy.Bing — Todos los derechos reservados`;
+    const textSize = Math.round(Math.min(SHARE_W, SHARE_H)*0.028);
+    const lh = Math.round(textSize*1.25);
+    const padX = 24, padY = 14, gap = 6, r = 14;
+
+    // helper de rectángulo redondeado inline
+    const rounded = (x,y,w,h,rad,fill)=>{ ctx.beginPath(); ctx.moveTo(x+rad,y); ctx.arcTo(x+w,y,x+w,y+h,rad); ctx.arcTo(x+w,y+h,x,y+h,rad); ctx.arcTo(x,y+h,x,y,rad); ctx.arcTo(x,y,x+w,y,rad); ctx.closePath(); ctx.fillStyle=fill; ctx.fill(); };
+
+    ctx.save();
+    ctx.font = `500 ${textSize}px Inter, system-ui, sans-serif`;
+    ctx.fillStyle = '#ffffff';
+    ctx.textBaseline = 'top';
+    const w1 = ctx.measureText(line1).width;
+    const w2 = ctx.measureText(line2).width;
+    const bw = Math.max(w1, w2);
+    const blockW = Math.round(bw + padX*2);
+    const blockH = Math.round(lh*2 + gap + padY*2);
+    const x = Math.round((SHARE_W - blockW)/2);
+    const y = SHARE_H - blockH - 40;
+    rounded(x, y, blockW, blockH, r, 'rgba(0,0,0,0.35)');
+    ctx.fillText(line1, x + padX, y + padY);
+    ctx.fillText(line2, x + padX, y + padY + lh + gap);
+    ctx.restore();
+
     return out;
-  });
-    const out=document.createElement('canvas'); out.width=SHARE_W; out.height=SHARE_H; const ctx=out.getContext('2d');
-    ctx.fillStyle=bg; ctx.fillRect(0,0,SHARE_W,SHARE_H);
-    const targetW=SHARE_W*(1-SHARE_MARGIN*2), targetH=SHARE_H*(1-SHARE_MARGIN*2);
-    const scale=Math.min(targetW/srcCanvas.width, targetH/srcCanvas.height);
-    const drawW=Math.round(srcCanvas.width*scale), drawH=Math.round(srcCanvas.height*scale);
-    const dx=Math.round((SHARE_W-drawW)/2), dy=Math.round((SHARE_H-drawH)/2);
-    ctx.drawImage(srcCanvas,dx,dy,drawW,drawH); return out;
   }
   shareBtn?.addEventListener('click', async ()=>{
     try{
@@ -439,6 +468,3 @@
 </script>
 </body>
 </html>
-
-
-
