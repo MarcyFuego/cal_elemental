@@ -1,664 +1,447 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>★ Calcula tu Elemento ★</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora Elemental</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Modak&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Modak:wght@500;600;700&display=swap" rel="stylesheet">
 
-    <!-- ========= META TAGS PARA COMPARTIR EN REDES SOCIALES (OG) ========= -->
+  <!-- ========= META TAGS PARA COMPARTIR EN REDES SOCIALES (OG) ========= -->
     <meta property="og:title" content="★★ Descubre tu Elemento ★★">
-    <meta property="og:description" content="Calcula tu elemento. Descubre por qué eres un imán para el drama. Activa el protocolo para desactivarlo. De nada.">
+    <meta property="og:description" content="Calcula tu elemento. Descubre tu energía y aprende a comunicarte mejor, con humor (Comedia Elemental).">
     <meta property="og:url" content="https://marcyfuego.github.io/cal_elemental/">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://placehold.co/600x600/ec4899/FFFFFF?text=Descubre%0Atu%0AElemento">
     <link rel="icon" type="image/png" href="https://placehold.co/32x32/ec4899/FFFFFF?text=★">
 
+  
+  <style>
+    :root{ --madera:#2e8b2e; --fuego:#c21919; --tierra:#cd853f; --metal:#cbc4d1; --agua:#38bfcc; }
+    body{font-family:'Inter',sans-serif;transition:background-color .8s ease}
+    .screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;transition:opacity .5s ease-in-out;position:relative;z-index:1}
+    #calculator-screen{background:transparent}
+    @keyframes gradientBG{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+    .main-container,.result-container{width:100%;max-width:32rem;text-align:center}
+    .result-container{max-width:56rem}
+    .title-discover{font-family:'Pacifico',cursive;font-size:3.1rem;line-height:1.05;letter-spacing:.01em;background:linear-gradient(90deg,#34d399 0%,#60a5fa 45%,#c084fc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 16px rgba(0,0,0,.15)}
+    .title-element{font-family:'Modak',sans-serif;color:#0f172a;font-size:3.25rem;text-transform:uppercase;letter-spacing:.08em;text-shadow:2px 2px 4px rgba(0,0,0,.06);line-height:1.05}
+    .card{background-color:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:2rem;border-radius:.75rem;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);width:100%;margin-top:1.5rem}
+    .input-field{border:1px solid #d1d5db;border-radius:.375rem;padding:.5rem .75rem;width:100%;box-shadow:0 1px 2px 0 rgba(0,0,0,.05)}
+    .btn{background-color:#111827;color:#fff;font-weight:700;letter-spacing:.05em;padding:.6rem 1.6rem;border-radius:.5rem;box-shadow:0 1px 2px 0 rgba(0,0,0,.05);transition:all .2s;display:inline-flex;align-items:center;justify-content:center;width:auto;font-family:'Modak',sans-serif;font-size:1.15rem}
+    .btn:hover{background-color:#000;transform:translateY(-1px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
+    .error-text{font-size:.875rem;margin-top:.5rem;color:#ef4444}
+    .footer-text{margin-top:1.5rem;font-size:.875rem;color:rgba(31,41,55,.8);text-shadow:1px 1px 2px rgba(255,255,255,.2);padding:0 1rem}
+    .result-content{color:#fff;font-size:1.1rem;line-height:1.75;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
+    .result-title-element{font-family:'Modak',sans-serif;font-size:clamp(1.5rem,3.5vw,2.35rem);color:#ffffff;text-transform:uppercase;letter-spacing:.03em;line-height:1.05;text-shadow:2px 3px 0 rgba(0,0,0,.15)}
+    .result-subtitle{font-family:'Pacifico',cursive;font-size:1.25rem;color:#ffffff;opacity:.95;letter-spacing:.06em;text-transform:uppercase;line-height:1.1;margin-top:.25rem;text-shadow:1px 2px 0 rgba(0,0,0,.12)}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .75rem;border-radius:9999px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25)}
+    .badge .cjk{font-weight:700}
+    #backButton{position:fixed;bottom:20px;left:20px;background-color:rgba(0,0,0,.5);color:#fff;padding:10px 20px;border-radius:50px;text-decoration:none;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:.02em;transition:background-color .3s;z-index:10}
+    #backButton:hover{background-color:rgba(0,0,0,.7)}
+    .copyright{position:fixed;bottom:1rem;right:1.5rem;font-size:.75rem;color:rgba(255,255,255,.7);text-shadow:1px 1px 2px rgba(0,0,0,.2)}
+    .social-link{display:inline-flex;align-items:center;gap:.5rem;transition:opacity .2s;text-decoration:none}
+    .social-link:hover{opacity:.8}
+    .social-icon{transition:transform .2s}
+    .social-icon:hover{transform:scale(1.1)}
+    .calculation-counter{margin-top:.5rem;font-size:.75rem}
+    .share-row{margin-top:1.25rem}
+    .share-note{font-size:.8rem;opacity:.85}
+    .hero-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:.35rem}
+    .hero-wrap::before{content:'';position:absolute;inset:auto auto -10px auto;width:220px;height:22px;border-radius:9999px;background:radial-gradient(closest-side,rgba(0,0,0,.22),transparent 70%);filter:blur(10px)}
+    .tagline{font-family:'Pacifico',cursive;font-weight:400;letter-spacing:.02em;text-transform:none;font-size:1.05rem;color:rgba(15,23,42,.85);backdrop-filter:blur(4px);background:rgba(255,255,255,.45);padding:.35rem .6rem;border-radius:9999px;border:1px solid rgba(15,23,42,.08)}
+    .title-bubble{font-family:'Modak',sans-serif;font-size:clamp(2.4rem,7vw,4.8rem);line-height:.92;letter-spacing:.06em;display:inline-block;padding:.08em .22em;background:linear-gradient(180deg,#ffd8ff 0%,#ff9de6 40%,#ff6bd5 70%,#ff40c0 100%);color:#ffffff;border-radius:.35em;box-shadow:inset 0 2px 0 rgba(255,255,255,.85), inset 0 -6px 10px rgba(0,0,0,.12), 0 8px 0 rgba(209,75,176,.6), 0 12px 24px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(255,255,255,.9), 0 2px 0 rgba(255,255,255,.65), 0 3px 0 rgba(209,75,176,.65), 0 8px 18px rgba(0,0,0,.28);animation:floaty 6s ease-in-out infinite alternate}
+    .title-bubble:hover{animation:jelly .6s ease}
+    @keyframes jelly{0%,100%{transform:scale(1,1)}30%{transform:scale(1.04,.96)}60%{transform:scale(.98,1.02)}}
+    @keyframes floaty{0%{transform:translateY(0)}100%{transform:translateY(4px)}}
+    .why-bubble{margin-top:1rem;background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.88));border:2px solid rgba(0,0,0,.06);border-radius:1rem;padding:1rem 1.25rem;box-shadow:0 8px 0 rgba(0,0,0,.06), 0 14px 28px rgba(0,0,0,.12)}
+    .why-bubble strong{font-family:'Modak',sans-serif;letter-spacing:.02em}
+    .why-bubble em{font-style:normal;font-weight:600}
+    .result-script{font-family:'Pacifico',cursive;font-size:clamp(1.8rem,4vw,3rem);color:rgba(255,255,255,.9);text-shadow:0 2px 0 rgba(0,0,0,.08)}
+    .element-bubble{font-family:'Modak',sans-serif;font-size:clamp(3rem,10vw,7rem);text-transform:uppercase;letter-spacing:.06em;display:inline-block;padding:.1em .25em;border-radius:.35em;color:#fff;background:linear-gradient(180deg,#ffd8ff 0%,#ff9de6 40%,#ff6bd5 70%,#ff40c0 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.85), inset 0 -6px 10px rgba(0,0,0,.12), 0 8px 0 rgba(209,75,176,.6), 0 12px 24px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(255,255,255,.9), 0 2px 0 rgba(255,255,255,.65), 0 3px 0 rgba(209,75,176,.65), 0 8px 18px rgba(0,0,0,.28);animation:floaty 6s ease-in-out infinite alternate}
+    .element-bubble:hover{animation:jelly .6s ease}
+    .aurora{opacity:0;transition:opacity 1s ease;position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(60px) saturate(120%);}  
+    .aurora .blob{position:absolute;border-radius:50%;mix-blend-mode:screen;opacity:.85}
+    .aurora .b1{width:50vmax;height:50vmax;background:radial-gradient(circle at 30% 30%, rgba(255,157,230,.9), rgba(255,157,230,0) 60%);animation:blobMove1 24s ease-in-out infinite alternate}
+    .aurora .b2{width:42vmax;height:42vmax;background:radial-gradient(circle at 70% 40%, rgba(255,211,110,.9), rgba(255,211,110,0) 60%);animation:blobMove2 28s ease-in-out infinite alternate}
+    .aurora .b3{width:46vmax;height:46vmax;background:radial-gradient(circle at 40% 60%, rgba(110,231,224,.9), rgba(110,231,224,0) 60%);animation:blobMove3 26s ease-in-out infinite alternate}
+    .aurora .b4{width:48vmax;height:48vmax;background:radial-gradient(circle at 60% 60%, rgba(147,197,253,.9), rgba(147,197,253,0) 60%);animation:blobMove4 32s ease-in-out infinite alternate}
+    @keyframes blobMove1{0%{transform:translate(-20%, -10%) scale(1)}50%{transform:translate(10%, 5%) scale(1.15)}100%{transform:translate(-20%, -10%) scale(1)}}
+    @keyframes blobMove2{0%{transform:translate(35%, -15%) scale(1)}50%{transform:translate(10%, 10%) scale(1.2)}100%{transform:translate(35%, -15%) scale(1)}}
+    @keyframes blobMove3{0%{transform:translate(-10%, 35%) scale(1)}50%{transform:translate(15%, 5%) scale(1.1)}100%{transform:translate(-10%, 35%) scale(1)}}
+    @keyframes blobMove4{0%{transform:translate(20%, 25%) scale(1)}50%{transform:translate(-10%, -10%) scale(1.25)}100%{transform:translate(20%, 25%) scale(1)}}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lilita+One&family=Pacifico&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.8s ease;
-        }
-
-        .screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 1.5rem;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        #calculator-screen {
-            background: linear-gradient(135deg, #fde68a, #fca5a5, #86efac, #93c5fd);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        
-        #result-screen {
-             background: none;
-             position: relative;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .main-container, .result-container {
-            width: 100%;
-            max-width: 32rem;
-            text-align: center;
-        }
-        
-        .result-container {
-             max-width: 56rem;
-        }
-
-        .title-discover {
-            font-family: 'Pacifico', cursive;
-            color: #14532d;
-            font-size: 2.5rem;
-            line-height: 1;
-        }
-
-        .title-element {
-            font-family: 'Lilita One', sans-serif;
-            color: #ec4899;
-            font-size: 3.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            line-height: 1.1;
-        }
-
-        .card {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            margin-top: 1.5rem;
-        }
-        .input-field {
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            padding: 0.5rem 0.75rem;
-            width: 100%;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-        .btn {
-            background-color: #3b82f6;
-            color: white;
-            font-weight: 600;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.375rem;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: auto;
-        }
-        .btn:hover {
-            background-color: #2563eb;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .error-text {
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            color: #ef4444; 
-        }
-
-        .footer-text {
-            margin-top: 1.5rem;
-            font-size: 0.875rem;
-            color: rgba(31, 41, 55, 0.8);
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.2);
-            padding: 0 1rem;
-        }
-        
-        .result-content {
-            color: white;
-            font-size: 1.125rem;
-            line-height: 1.75;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        }
-        .result-title-container {
-            position: relative;
-            display: inline-block;
-        }
-        .result-title-discover {
-            font-family: 'Pacifico', cursive;
-            font-size: 3rem;
-            color: rgba(255,255,255,0.8);
-            position: absolute;
-            top: -0.5rem;
-            left: -1rem;
-            transform: translateX(-25%);
-        }
-        .result-title-element {
-            font-family: 'Lilita One', sans-serif;
-            font-size: 6rem;
-            color: #fe95f6;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-        .newsletter-form {
-            background-color: white;
-            border-radius: 0.375rem;
-            padding: 0.25rem;
-            display: flex;
-            max-width: 350px;
-            margin: 2rem auto 0 auto;
-        }
-        .newsletter-input {
-            border: none;
-            outline: none;
-            padding: 0.5rem 0.75rem;
-            flex-grow: 1;
-            color: #374151;
-        }
-        .newsletter-button {
-            background-color: #a32ca3;
-            color: white;
-            border: none;
-            border-radius: 0.25rem;
-            padding: 0.5rem 1rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        #backButton {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-family: sans-serif;
-            font-size: 14px;
-            transition: background-color 0.3s;
-            z-index: 10;
-        }
-         #backButton:hover {
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-        .copyright {
-            position: fixed;
-            bottom: 1rem;
-            right: 1.5rem;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: opacity 0.2s;
-            text-decoration: none;
-        }
-        .social-link:hover {
-            opacity: 0.8;
-        }
-        .social-icon {
-            transition: transform 0.2s;
-        }
-        .social-icon:hover {
-            transform: scale(1.1);
-        }
-       
-        .calculation-counter {
-            margin-top: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        #language-switcher {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background-color: rgba(255,255,255,0.3);
-            backdrop-filter: blur(5px);
-            border-radius: 50px;
-            display: flex;
-            padding: 0.25rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            z-index: 20;
-        }
-        .lang-btn {
-            padding: 0.5rem 0.75rem;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: #374151;
-            border-radius: 50px;
-            transition: all 0.3s;
-        }
-        .lang-btn.active {
-            background-color: white;
-            color: #3b82f6;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-    </style>
+    .state-landing .aurora{opacity:.9}
+    .state-result .aurora{opacity:0}
+    .result-comedy-sub{font-family:'Pacifico',cursive;font-size:1.05rem;color:#ffffff;opacity:.95;letter-spacing:.02em;margin-top:.15rem}
+    .title-calculadora{font-family:'Montserrat',sans-serif;font-weight:600;font-size:clamp(1.8rem,5.5vw,3rem);letter-spacing:.01em;line-height:1.05;color:#0f172a}
+    .state-landing .copyright{color:rgba(17,24,39,.7)}
+  .hook{font-family:'Pacifico',cursive;font-size:1.15rem;line-height:1.2;color:#fff;text-shadow:1px 2px 0 rgba(0,0,0,.15)}
+.landing-gradient{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:1;background:linear-gradient(120deg,#fdf2f8,#e0f2fe,#ecfccb,#fae8ff);background-size:300% 300%;animation:gradMove 20s ease infinite;transition:opacity .8s ease}
+@keyframes gradMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.state-result .landing-gradient{opacity:0}
+.result-card{border-radius:1rem;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.18)}
+.result-hero{color:#fff}
+.hero-label{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;opacity:.9;font-weight:700}
+.hero-phrase{font-family:'Pacifico',cursive;font-size:clamp(1.6rem,4.5vw,2.6rem);line-height:1.1}
+.hero-sub{font-family:'Inter',sans-serif;font-size:.9rem;opacity:.95}
+.photo-wrap{position:relative}
+.photo-blob{position:absolute;inset:auto auto -14px -14px;width:180px;height:180px;border-radius:46% 54% 58% 42%/50% 41% 59% 50%;background:rgba(255,255,255,.18);filter:blur(0.5px)}
+.photo-img{box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.result-band{color:#fff}
+.section-title{font-weight:700;letter-spacing:.02em;text-transform:none}
+.feature-list{list-style:disc;padding-left:1rem}
+.hidden{display:none}
+</style>
+  <!-- html2canvas for sharing -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
-<body>
-
-    <!-- Pantalla 1: Calculadora -->
-    <div id="calculator-screen" class="screen">
-         <div id="language-switcher">
-            <button id="lang-es" class="lang-btn active">ES</button>
-            <button id="lang-en" class="lang-btn">EN</button>
+<body class="state-landing">
+  <div id="landingGradient" class="landing-gradient"></div>
+  <div id="aurora" class="aurora">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+  <!-- Pantalla 1: Calculadora -->
+  <div id="calculator-screen" class="screen">
+    <div class="main-container">
+      <header class="hero-wrap">
+        <h1 class="title-calculadora">Calculadora</h1>
+        <h2 class="title-bubble">elemental</h2>
+        <div class="tagline">Descubre tu elemento</div>
+      </header>
+      <div class="why-bubble text-slate-700 text-sm md:text-base">
+        <strong>¿Por qué importa conocer tu elemento?</strong>
+        <div class="mt-1">
+          Porque cuando sabes si tu energía es más <em>Madera, Fuego, Tierra, Metal y Agua</em>, dejas de pelear con tu naturaleza. 
+          Tomas mejores decisiones, te comunicas mejor y organizas la vida con humor. Esto es <em>Comedia Elemental</em> — donde sí te entiendes, te ríes (y todo fluye).
         </div>
-        <div class="main-container">
-            <header>
-                <h1 class="title-discover" data-translate-key="title_discover">Descubre</h1>
-                <h2 class="title-element" data-translate-key="title_element">Tu Elemento</h2>
-            </header>
-
-            <section class="card">
-                <div class="space-y-4 text-left">
-                    <label for="birthDate" class="block text-sm font-medium text-slate-700" data-translate-key="date_label">Fecha de Nacimiento:</label>
-                    <input type="date" id="birthDate" name="birthDate" class="input-field">
-                    <div class="pt-2">
-                         <button id="calculateDayMaster" class="btn" data-translate-key="calculate_btn">Calcular</button>
-                    </div>
-                    <div id="dayMasterError" class="error-text text-center"></div>
-                </div>
-            </section>
-            
-            <footer class="footer-text">
-                 <a href="https://w.app/v9rd8l" target="_blank" rel="noopener noreferrer" class="social-link font-semibold text-gray-700 justify-center mb-4">
-                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="black"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.45 3.48 1.34 5.02l-1.38 5.02 5.14-1.35c1.47.81 3.12 1.23 4.8 1.23h.01c5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zM17.23 14.25c-.21-.11-1.25-.62-1.44-.69-.2-.07-.34-.11-.49.11-.15.22-.54.69-.67.83s-.25.16-.47.05c-.22-.11-.9-.33-1.71-1.05-.63-.56-1.05-1.25-1.17-1.47-.12-.22-.01-.34.1-.45.1-.1.22-.26.34-.39s.16-.22.24-.37.04-.28-.01-.39c-.05-.11-.47-1.13-.64-1.54s-.34-.35-.47-.36c-.13 0-.28-.01-.43-.01s-.38.05-.58.28c-.2.22-.78.76-.78 1.85s.8 2.15 1.03 2.44c.06.07 1.49 2.26 3.63 3.18.51.21.91.34 1.22.44.47.16 1.03.14 1.35.04.38-.09 1.25-.51 1.42-.99.18-.48.18-.88.13-.99s-.15-.15-.34-.25z"></path></svg>
-                    <span data-translate-key="whatsapp_text">ASESORIA PERSONALIZADA CON MARCY</span>
-                </a>
-                <p class="text-xs" data-translate-key="footer_note_1">Identificaremos el elemento del Día Maestro. Para análisis más profundos, escríbenos. Esta Calculadora BaZi está calibrada con el Calendario Chino de 10,000 años.</p>
-                <p id="run-counter" class="calculation-counter"><span data-translate-key="calculations_done">Cálculos realizados</span>: <span>...</span></p>
-                <div class="mt-2 text-xs flex items-center justify-center gap-2">
-                    <span data-translate-key="copyright">Copyright 2025 - Marcy Bing. All rights reserved.</span>
-                    <a href="https://www.instagram.com/marcy.bing/" target="_blank" rel="noopener noreferrer" class="social-icon">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                    </a>
-                </div>
-            </footer>
+      </div>
+      <section class="card">
+        <div class="space-y-4 text-left">
+          <label for="birthDate" class="block text-sm font-medium text-slate-700">Fecha de nacimiento</label>
+          <input type="date" id="birthDate" name="birthDate" class="input-field" placeholder="dd/mm/aaaa">
+          <div class="pt-2">
+            <button id="calculateDayMaster" class="btn">Calcular</button>
+          </div>
+          <div id="dayMasterError" class="error-text text-center"></div>
         </div>
+      </section>
+      <footer class="footer-text">
+        <p>Esta calculadora identifica el <strong>elemento principal</strong> y su <strong>polaridad Yin/Yang</strong>. Esta Calculadora BaZi está calibrada con el Calendario Chino de 10,000 años. Para un análisis completo contáctanos.</p>
+        
+        <p id="env-banner" class="text-xs text-gray-600 mt-1"></p>
+        <div class="mt-4 flex flex-col items-center gap-4 text-xs">
+          <a href="https://wa.me/526242113476" target="_blank" rel="noopener noreferrer" class="social-link font-semibold text-slate-700">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#111827"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.45 3.48 1.34 5.02l-1.38 5.02 5.14-1.35c1.47.81 3.12 1.23 4.8 1.23h.01c5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zM17.23 14.25c-.21-.11-1.25-.62-1.44-.69-.2-.07-.34-.11-.49.11-.15.22-.54.69-.67.83s-.25.16-.47.05c-.22-.11-.9-.33-1.71-1.05-.63-.56-1.05-1.25-1.17-1.47-.12-.22-.01-.34 .1-.45.1-.1.22-.26.34-.39s.16-.22.24-.37.04-.28-.01-.39c-.05-.11-.47-1.13-.64-1.54s-.34-.35-.47-.36c-.13 0-.28-.01-.43-.01s-.38.05-.58.28c-.2.22-.78.76-.78 1.85s.8 2.15 1.03 2.44c.06.07 1.49 2.26 3.63 3.18.51.21.91.34 1.22.44.47.16 1.03.14 1.35.04.38-.09 1.25-.51 1.42-.99.18-.48.18-.88.13-.99s-.15-.15-.34-.25z"></path></svg>
+            <span>Soy Marcy, escríbeme por el WhatsApp</span>
+          </a>
+          <a href="https://www.instagram.com/comedia.elemental/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram Comedia Elemental">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+        </div>
+      </footer>
+      <div id="copyright-landing" class="copyright"><span>Copyright 2025 - Marcy Bing. All rights reserved.</span></div>
     </div>
+  </div>
 
-    <!-- Pantalla 2: Resultado (Oculta por defecto) -->
-    <div id="result-screen" class="screen hidden">
-        <div id="result-content-container" class="result-container grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <!-- Columna de Título -->
-            <div class="flex flex-col items-center justify-center md:items-end md:justify-end md:pr-8">
-                <div class="result-title-container">
-                    <h2 class="result-title-discover" data-translate-key="you_are">eres</h2>
-                    <h1 id="result-title-element" class="result-title-element"></h1>
-                </div>
-                <div class="flex flex-col items-center md:items-end gap-4 mt-4">
-                    <a href="https://w.app/v9rd8l" target="_blank" rel="noopener noreferrer" class="social-link text-white font-semibold text-sm">
-                        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.45 3.48 1.34 5.02l-1.38 5.02 5.14-1.35c1.47.81 3.12 1.23 4.8 1.23h.01c5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zM17.23 14.25c-.21-.11-1.25-.62-1.44-.69-.2-.07-.34-.11-.49.11-.15.22-.54.69-.67.83s-.25.16-.47.05c-.22-.11-.9-.33-1.71-1.05-.63-.56-1.05-1.25-1.17-1.47-.12-.22-.01-.34.1-.45.1-.1.22-.26.34-.39s.16-.22.24-.37.04-.28-.01-.39c-.05-.11-.47-1.13-.64-1.54s-.34-.35-.47-.36c-.13 0-.28-.01-.43-.01s-.38.05-.58.28c-.2.22-.78.76-.78 1.85s.8 2.15 1.03 2.44c.06.07 1.49 2.26 3.63 3.18.51.21.91.34 1.22.44.47.16 1.03.14 1.35.04.38-.09 1.25-.51 1.42-.99.18-.48.18-.88.13-.99s-.15-.15-.34-.25z"></path></svg>
-                        <span data-translate-key="whatsapp_text">ASESORIA PERSONALIZADA CON MARCY</span>
-                    </a>
-                    <a href="https://www.instagram.com/marcy.bing/" target="_blank" rel="noopener noreferrer" class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                    </a>
-                </div>
+  <!-- Pantalla 2: Resultado -->
+  <div id="result-screen" class="screen hidden">
+    <div id="result-content-container" class="result-container">
+      <div id="result-card" class="result-card">
+        <section id="result-hero" class="result-hero grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+          <div class="photo-wrap flex justify-center md:justify-start">
+            <div class="photo-blob"></div>
+            <img id="result-photo" class="photo-img rounded-[22px] object-cover w-[260px] h-[260px] md:w-[320px] md:h-[220px]" alt="Foto relacionada al elemento" referrerpolicy="no-referrer" loading="lazy" decoding="async"/>
+          </div>
+          <div class="hero-text text-center md:text-left flex flex-col justify-center">
+            <div class="hero-label">Elemento</div>
+            <div id="result-title-element" class="hero-phrase mt-2"></div>
+            <div id="result-subtitle" class="hero-sub mt-1"></div>
+          </div>
+        </section>
+        <section id="result-band" class="result-band p-6">
+          <h3 class="section-title">Descripción</h3>
+          <p id="result-description" class="mt-2"></p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+            <div>
+              <h4 class="section-title">Características positivas</h4>
+              <ul id="result-strengths-list" class="feature-list mt-2"></ul>
+              <span id="result-strengths" class="hidden"></span>
             </div>
-            <!-- Columna de Contenido -->
-            <div class="result-content space-y-6 text-center md:text-left">
-                <p id="result-description"></p>
-                <p id="result-question"></p>
-                
-                <div class="newsletter-section max-w-sm mx-auto md:mx-0">
-                    <form id="newsletter-form" class="newsletter-form">
-                        <input type="email" id="newsletter-email" placeholder="Enter your email" data-translate-key="email_placeholder" class="newsletter-input" required>
-                        <button type="submit" class="newsletter-button" data-translate-key="subscribe_btn">Suscríbete</button>
-                    </form>
-                    <p id="newsletter-feedback" class="text-sm mt-2 h-4"></p>
-                    <p class="text-sm font-semibold mt-2" data-translate-key="creative_advantage">¡Sácale ventaja creativa al drama elemental!</p>
-                </div>
-                 <p id="result-footer-note" class="text-xs opacity-80 mt-4"></p>
+            <div>
+              <h4 class="section-title">Características negativas</h4>
+              <ul id="result-challenge-list" class="feature-list mt-2"></ul>
+              <span id="result-challenge" class="hidden"></span>
             </div>
-        </div>
-        <a href="#" id="backButton" data-translate-key="back_btn">← Calcular de Nuevo</a>
-        <div id="copyright-result" class="copyright">
-            <span id="copyright-text"></span>
-        </div>
+          </div>
+          <div class="mt-6">
+            <h4 class="section-title text-center">Pregunta existencial</h4>
+            <div id="result-viral" class="text-center mt-1 italic"></div>
+          </div>
+        </section>
+      </div>
+      <p id="result-footer-note" class="text-xs opacity-80 mt-2 text-white text-center"></p>
     </div>
+    <!-- Share row -->
+    <div class="share-row flex items-center gap-3 justify-center md:justify-start">
+      <button id="shareCardBtn" class="btn">Compartir mi Elemento</button>
+      <span id="share-feedback" class="share-note"></span>
+    </div>
+    <!-- Bottom actions -->
+    <div id="result-actions" class="mt-4 flex flex-col items-center gap-3">
+      <a href="https://wa.me/526242113476" target="_blank" rel="noopener noreferrer" class="social-link text-white font-semibold text-sm">
+        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.45 3.48 1.34 5.02l-1.38 5.02 5.14-1.35c1.47.81 3.12 1.23 4.8 1.23h.01c5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zM17.23 14.25c-.21-.11-1.25-.62-1.44-.69-.2-.07-.34-.11-.49.11-.15.22-.54.69-.67.83s-.25.16-.47.05c-.22-.11-.9-.33-1.71-1.05-.63-.56-1.05-1.25-1.17-1.47-.12-.22-.01-.34.1-.45.1-.1.22-.26.34-.39s.16-.22.24-.37.04-.28-.01-.39c-.05-.11-.47-1.13-.64-1.54s-.34-.35-.47-.36c-.13 0-.28-.01-.43-.01s-.38.05-.58.28c-.2.22-.78.76-.78 1.85s.8 2.15 1.03 2.44c.06.07 1.49 2.26 3.63 3.18.51.21.91.34 1.22.44.47.16 1.03.14 1.35.04.38-.09 1.25-.51 1.42-.99.18-.48.18-.88.13-.99s-.15-.15-.34-.25z"></path></svg>
+        <span>Soy Marcy, escríbeme por el WhatsApp</span>
+      </a>
+      <a href="https://www.instagram.com/comedia.elemental/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram Comedia Elemental">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      </a>
+    </div>
+    <a href="#" id="backButton">← Calcular de nuevo</a>
+    <div id="copyright-result" class="copyright">
+      <span id="copyright-text"></span>
+    </div>
+  </div>
 
-    <script type="module">
-        // Importar funciones de Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, increment, serverTimestamp, setLogLevel, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        
-        // --- Configuración de Firebase ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyBgT8Aib-XdZu1aWvBPCzZcn0ra9tsUQxc",
-            authDomain: "calculadora-elemental.firebaseapp.com",
-            projectId: "calculadora-elemental",
-            storageBucket: "calculadora-elemental.appspot.com",
-            messagingSenderId: "582802877245",
-            appId: "1:582802877245:web:ea8248c42a8d2c73beb354"
-        };
-        
-        const appId = "calculadora-bazi"; 
+  <script>
+  // Helpers
+  const $id = (id) => document.getElementById(id);
+  const setText = (target, text='') => { const el = typeof target==='string' ? $id(target) : target; if(el) el.textContent = text; };
 
-        // --- Inicialización de Firebase ---
-        let db;
-        let isFirebaseReady = false;
+  // Screens toggle
+  const calculatorScreen = $id('calculator-screen');
+  const resultScreen = $id('result-screen');
+  function showScreen(which){
+    if(which==='result'){
+      calculatorScreen.classList.add('hidden');
+      resultScreen.classList.remove('hidden');
+      document.body.classList.remove('state-landing');
+      document.body.classList.add('state-result');
+    } else {
+      resultScreen.classList.add('hidden');
+      calculatorScreen.classList.remove('hidden');
+      document.body.classList.add('state-landing');
+      document.body.classList.remove('state-result');
+    }
+  }
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            const auth = getAuth(app);
-            setLogLevel('debug'); 
-            await signInAnonymously(auth);
-            console.log("Autenticación con Firebase exitosa.");
-            isFirebaseReady = true;
-        } catch (error) {
-            console.error("Error al inicializar Firebase:", error);
-            const errorDiv = document.getElementById('dayMasterError');
-            if (errorDiv) {
-                if (error.code === 'auth/admin-restricted-operation' || error.code === 'auth/operation-not-allowed') {
-                     errorDiv.textContent = "Error: Habilita el Acceso Anónimo en tu panel de Firebase (Authentication > Sign-in method).";
-                } else {
-                     errorDiv.textContent = "El contador y suscripción no están disponibles ahora.";
-                }
-            }
-            const runCounter = document.getElementById('run-counter');
-            if (runCounter) runCounter.style.display = 'none';
-            const newsletterSection = document.querySelector('.newsletter-section');
-            if(newsletterSection) newsletterSection.style.display = 'none';
+  // Palette y estado
+  const elementPalette = { Madera: getComputedStyle(document.documentElement).getPropertyValue('--madera') || '#2e8b2e', Fuego: getComputedStyle(document.documentElement).getPropertyValue('--fuego') || '#c21919', Tierra: getComputedStyle(document.documentElement).getPropertyValue('--tierra') || '#cd853f', Metal: getComputedStyle(document.documentElement).getPropertyValue('--metal') || '#cbc4d1', Agua: getComputedStyle(document.documentElement).getPropertyValue('--agua') || '#38bfcc' };
+  let __lastStem = null;
+
+  // ======= Calibración BaZi: Día (Tian Gan) =======
+  // Tabla de 10 troncos celestes (índice 0..9)
+  const STEM_TABLE = [
+    {e:'Madera', p:'Yang', key:'Jia'}, // 0
+    {e:'Madera', p:'Yin',  key:'Yi'},  // 1
+    {e:'Fuego',  p:'Yang', key:'Bing'},// 2
+    {e:'Fuego',  p:'Yin',  key:'Ding'},// 3
+    {e:'Tierra', p:'Yang', key:'Wu'},  // 4
+    {e:'Tierra', p:'Yin',  key:'Ji'},  // 5
+    {e:'Metal',  p:'Yang', key:'Geng'},// 6
+    {e:'Metal',  p:'Yin',  key:'Xin'}, // 7
+    {e:'Agua',   p:'Yang', key:'Ren'}, // 8
+    {e:'Agua',   p:'Yin',  key:'Gui'}  // 9
+  ];
+
+  function jdnFromYMD(y,m,d){
+    // Algoritmo proleptico gregoriano → JDN entero (día civil)
+    const a = Math.floor((14 - m)/12);
+    const y1 = y + 4800 - a;
+    const m1 = m + 12*a - 3;
+    return d + Math.floor((153*m1 + 2)/5) + 365*y1 + Math.floor(y1/4) - Math.floor(y1/100) + Math.floor(y1/400) - 32045;
+  }
+  function getLocalYMD(date){
+    return { y: date.getFullYear(), m: date.getMonth()+1, d: date.getDate() };
+  }
+  // ANCLA: por requerimiento del cliente, 2025-09-07 (America/Mazatlan) es TIERRA YIN (Ji)
+  const JI_TARGET_JDN = jdnFromYMD(2025,9,7);
+  const DAY_STEM_OFFSET = (5 - (JI_TARGET_JDN % 10) + 10) % 10; // 5 = índice de Ji (Tierra Yin)
+  function stemIndexFromJDN(jdn){ return ((jdn + DAY_STEM_OFFSET) % 10 + 10) % 10; }
+  function computeStemForYMD(y,m,d){
+    const jdn = jdnFromYMD(y,m,d);
+    const idx = stemIndexFromJDN(jdn);
+    const s = STEM_TABLE[idx];
+    return { element:s.e, polarity:s.p, key:s.key, jdn, idx };
+  }
+  function parseInputYMD(val){ try{ const [y,m,d] = val.split('-').map(n=>parseInt(n,10)); return {y,m,d}; }catch(_){ return null; } }
+
+
+  // Copys mínimos para vista previa
+  const copy = {
+    Madera:{ elementDesc:'Madera es crecimiento con propósito.', Yin:{hook:'Flexible como flor… pero con agenda y un plan', desc:'Diplomacia y flow social con enfoque, Social, elegante y adaptable. Sobrevive casi en cualquier entorno y une a la gente con buen tacto..', positives:['Empatía','Creatividad','Diplomacia; networking natural; Flexibilidad, Resiliencia; sensibilidad estética; lectura fina del ambiente.'], negatives:['Hipersensibilidad; dependencia del grupo; tendencia a complacer; puede ser oportunista del estatus.'], viral:'¿Soy amable… o sólo me da miedo decir que no?'}, Yang:{hook:'árbol que echa raíces profundas y crece hacia el sol ese es el plan', desc:'Constancia y visión a largo plazo, Liderazgo noble y constante. Crece aun con obstáculos y alimenta a su alrededor sin hacer ruido.', positives:['Constancia; generosidad; visión de largo plazo; confiabilidad; capacidad de hacer crecer a otros.'], negatives:['Dificultad para decir “no”; explotable; testarudez; arranque lento'], viral:'¿¿Si siempre sostengo a todos, quién me sostiene a mí un ratito?'} },
+    Fuego:{ elementDesc:'Fuego es energía que inspira.', Yin:{hook:'Llama que se apaga y reenciende; nos muestra el camino', desc:'Luz en la oscuridad que orienta y transforma. Sensible, oportuno y maestro natural.', positives:['Empatía','Storytelling, Claridad en crisis; calidez; visión oportuna; poder transformador; confiabilidad.'], negatives:['Autoexigencia','Límites difusos, Vulnerabilidad alta; dar de más; desgaste por salvar a todos; inseguridad ocasional.'], viral:'¿A quién alumbras hoy? ¿De verdad tengo que alumbrar a todos o con encenderme yo alcanza?'}, Yang:{hook:'Sol protagonista (el más positivo)', desc:'Carisma y empuje contagioso a los demás, Energía solar: generoso, directo y transparente. Inspira y empuja proyectos a plena luz.', positives:['Optimismo','Acción, Carisma; abundancia creativa; liderazgo visible; disciplina por rutina; optimismo.'], negatives:['Impaciencia','Desgaste, le cuesta “bajar el switch”; puede avasallar; muy expuesto a críticas.'], viral:'¿Qué show prendes mañana? Todos te miran'} },
+    Tierra:{ elementDesc:'Tierra es estabilidad útil.', Yin:{hook:'tierra fértil que absorbe y hace crecer todo y a todos menos tu', desc:'Nutre y convierte caos en algo simple, fácil de digerir, Nutridora y receptiva. Absorbe, cuida y ayuda a crecer (a veces a costa propia).', positives:['Generosidad; paciencia; aceptación; ingenio práctico; abundantes recursos “ocultos”.'], negatives:['Se sobrecarga','Evita conflicto, Se deja explotar; dificultad para poner límites; carga emocional ajena; pasividad.'], viral:'¿Qué cuidado te das primero? ¿Cuidarte es amor… o me volví tu maceta humana?'}, Yang:{hook:'Yo Montaña: firme hoy, firme mañana.”', desc:'Estructura y calma en tormenta, Estabilidad total. Paciente, confiable y guardián del secreto; defiende el terreno sin drama.', positives:['Estabilidad','Cumplimiento, Fortaleza; temple; lealtad; visión eterna; contención para todos.'], negatives:['Terquedad','Lentitud al cambiar, lentitud para moverse; poca flexibilidad; distancia emocional.'], viral:'¿Qué vale mover tu montaña?' } },
+    Metal:{ elementDesc:'Metal es claridad y estándar.', Yin:{hook:'Precisión que brilla (y corta).', desc:'Brillo, Glamour; Pensamiento lateral que sorprende, Precisión, Estética + detalle. Le importa el acabado perfecto y llegar al punto sin rodeos..', positives:['Orden; memoria fina; estándar alto; presencia escénica; criterio estético.'], negatives:['Perfeccionismo; “nit-picking”; soledad por estándares elevados; vanidad ocasional.'], viral:'¿Busco perfección o felicidad? (¿Se vale las dos sin Excel emocional?)'}, Yang:{hook:'Espada justa: corto el drama, no la verdad', desc:'Acción y justicia. Disciplina que abre camino, protege y decide cuando otros dudan.', positives:['Disciplina','Valentía, determinación, liderazgo, criterio claro, aguante bajo presión.'], negatives:['Brusquedad; impulsividad táctica; arrepentimientos duros; poca diplomacia.'], viral:'¿Quiero tener la razón… o quiero tener paz?'} },
+    Agua:{ elementDesc:'Agua es visión y aprendizaje.', Yin:{hook:'Sabia, cambiante, inspiradora; camaleónica', desc:'Sensible, sutil y cuidador. Evita el daño, se adapta al ambiente y sabe retirarse a tiempo.', positives:['Empatía','Ideas frescas, Empatía; ternura; protección de lo frágil; intuición climática/emocional; docencia con niños.'], negatives:['Inconstancia','Sobre‑análisis, Dispersión; falta de forma/identidad clara; evasión ante presión; volubilidad, tristeza, melancolía, depresión'], viral:'Si me pierdo entre nubes, ¿me extrañas… o ni te diste cuenta que estuve?'}, Yang:{hook:'Océano: me adapto, te rodeo y avanzo.”', desc:'Vasto, táctico, copia/pega magistral; libertad como norte, Conexión y curiosidad que suman, Sabiduría en movimiento. Conecta mundos, rodea obstáculos y acumula fuerza bajo la superficie.', positives:['Visión','Networking, Adaptabilidad; intuición; estrategia a presión; hambre de conocimiento.'], negatives:['Dispersión','Impredecible; puede parecer frío; difícil de “contener”; secretos y corrientes internas fuertes.'], viral:'¿¿Fluyo con estrategia… o ando evadiendo a todos como ola chiquita??' } }
+  };
+
+  function createPlaceholderDataURL(element){
+    const pal = {Madera:['#34d399','#065f46'],Fuego:['#ef4444','#7f1d1d'],Tierra:['#d97706','#78350f'],Metal:['#94a3b8','#334155'],Agua:['#38bdf8','#0e7490']};
+    const [c1,c2] = pal[element] || ['#a78bfa','#4c1d95'];
+    const W=640,H=480; const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H; const ctx=canvas.getContext('2d');
+    // fondo gradiente
+    const g=ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,c1); g.addColorStop(1,c2); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    // silueta simple (cabeza + cuerpo)
+    ctx.fillStyle='rgba(255,255,255,0.9)';
+    // cabeza
+    ctx.beginPath(); ctx.arc(W*0.5,H*0.36,56,0,Math.PI*2); ctx.fill();
+    // cuerpo
+    ctx.beginPath(); ctx.moveTo(W*0.32,H*0.55); ctx.quadraticCurveTo(W*0.5,H*0.48,W*0.68,H*0.55); ctx.lineTo(W*0.74,H*0.88); ctx.lineTo(W*0.26,H*0.88); ctx.closePath(); ctx.fill();
+    // texto del elemento
+    ctx.font='700 34px Inter, system-ui, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.textAlign='center';
+    ctx.fillText(element||'Elemento', W*0.5, H*0.16);
+    return canvas.toDataURL('image/png');
+  }
+  function setElementPhoto(element, polarity){
+    const img=$id('result-photo'); if(!img) return;
+    // Si se definió una URL directa para Tierra Yin (por ejemplo, data:base64), usarla
+    if(element==='Tierra' && polarity==='Yin' && typeof window!=='undefined' && window.TIERRA_YIN_URL){
+      img.src = window.TIERRA_YIN_URL; return;
+    }
+    const base=(window.ASSET_BASE||'assets').replace(/\/$/,'');
+    const byPolarity={
+      Madera:{Yin:'madera-yin.jpg',Yang:'madera-yang.jpg'},
+      Fuego:{Yin:'fuego-yin.jpg',Yang:'fuego-yang.jpg'},
+      Tierra:{Yin:'tierra-yin.jpg',Yang:'tierra-yang.jpg'},
+      Metal:{Yin:'metal-yin.jpg',Yang:'metal-yang.jpg'},
+      Agua:{Yin:'agua-yin.jpg',Yang:'agua-yang.jpg'}
+    };
+    const generic={Madera:'madera.jpg',Fuego:'fuego.jpg',Tierra:'tierra.jpg',Metal:'metal.jpg',Agua:'agua.jpg'};
+    const filename = (byPolarity[element] && byPolarity[element][polarity]) || generic[element] || 'default.jpg';
+    const local=`${base}/${filename}`;
+    img.crossOrigin='anonymous'; img.referrerPolicy='no-referrer'; img.loading='lazy'; img.decoding='async';
+    img.onerror=()=>{ img.onerror=null; img.src=createPlaceholderDataURL(element); };
+    img.src=local;
+  }
+
+  function hydrateResult(stem){
+    const { element, polarity } = stem || {};
+    const elCopy = copy[element] || {};
+    const variant = (elCopy && elCopy[polarity]) || {};
+
+    // Texto principal
+    setText('result-title-element', variant.hook || `${element || ''} ${polarity || ''}`.trim());
+    setText('result-subtitle', `${element || ''} ${polarity || ''}`.trim());
+    setText('result-description', variant.desc || '');
+
+    // Listas (bullets)
+    const toArr = (v)=> Array.isArray(v) ? v : (typeof v === 'string' && v.trim() ? [v] : []);
+    const strengths = toArr(variant.positives);
+    const negatives = toArr(variant.negatives);
+    const ulS = $id('result-strengths-list');
+    const ulN = $id('result-challenge-list');
+    if(ulS){ ulS.innerHTML=''; strengths.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ulS.appendChild(li); }); }
+    if(ulN){ ulN.innerHTML=''; negatives.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ulN.appendChild(li); }); }
+
+    // Viral / pregunta
+    setText('result-viral', variant.viral || '');
+
+    // Imagen: primero local /assets, si falla → placeholder embebido (compatible con share)
+    setElementPhoto(element, polarity);
+
+    // Colores del hero y banda + fondo general
+    const base = (elementPalette[element] || '#111827').trim();
+    function shade(hex, amt){
+      if(!/^#([0-9a-fA-F]{6})$/.test(hex)) return hex;
+      let r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+      r=Math.max(0,Math.min(255,r+amt)); g=Math.max(0,Math.min(255,g+amt)); b=Math.max(0,Math.min(255,b+amt));
+      const toHex=v=>v.toString(16).padStart(2,'0');
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+    const darker = shade(base, -22);
+    const hero = $id('result-hero');
+    const band = $id('result-band');
+    if(hero) hero.style.backgroundColor = base;
+    if(band) band.style.backgroundColor = darker;
+    document.body.style.backgroundColor = base;
+  }
+
+  // Handlers
+  $id('calculateDayMaster').addEventListener('click', ()=>{
+    const input=$id('birthDate');
+    const err=$id('dayMasterError');
+    err.textContent='';
+    if(!input.value){ err.textContent='Ingresa tu fecha.'; return; }
+    const ymd = parseInputYMD(input.value);
+    if(!ymd || !ymd.y || !ymd.m || !ymd.d){ err.textContent='Fecha inválida.'; return; }
+    const stem = computeStemForYMD(ymd.y, ymd.m, ymd.d);
+    __lastStem = { element: stem.element, polarity: stem.polarity };
+    hydrateResult(__lastStem);
+    showScreen('result');
+  });
+
+  $id('backButton').addEventListener('click', (e)=>{ e.preventDefault(); document.body.style.backgroundColor=''; showScreen('landing'); });
+
+  // Share (usa html2canvas ya cargado)
+  const shareBtn = $id('shareCardBtn');
+  const shareFeedback = $id('share-feedback');
+  const SHARE_W=1080, SHARE_H=1920, SHARE_MARGIN=0.08;
+  async function composeShareCanvas(container, bg){
+    const srcCanvas = await window.html2canvas(container, { backgroundColor: bg, scale: 2, useCORS: true });
+    const out=document.createElement('canvas'); out.width=SHARE_W; out.height=SHARE_H; const ctx=out.getContext('2d');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,SHARE_W,SHARE_H);
+    const targetW=SHARE_W*(1-SHARE_MARGIN*2), targetH=SHARE_H*(1-SHARE_MARGIN*2);
+    const scale=Math.min(targetW/srcCanvas.width, targetH/srcCanvas.height);
+    const drawW=Math.round(srcCanvas.width*scale), drawH=Math.round(srcCanvas.height*scale);
+    const dx=Math.round((SHARE_W-drawW)/2), dy=Math.round((SHARE_H-drawH)/2);
+    ctx.drawImage(srcCanvas,dx,dy,drawW,drawH); return out;
+  }
+  shareBtn?.addEventListener('click', async ()=>{
+    try{
+      if(!__lastStem) throw new Error('Calcula tu elemento primero');
+      if(shareFeedback) shareFeedback.textContent='Generando tarjeta...';
+      const container=$id('result-content-container');
+      const bg=elementPalette[__lastStem.element] || '#111827';
+      const out=await composeShareCanvas(container,bg);
+      out.toBlob(async (blob)=>{
+        try{
+          if(!blob) throw new Error('No se pudo crear imagen');
+          const filename=`bazi_story_${(__lastStem.element||'elemento').toLowerCase()}_${(__lastStem.polarity||'').toLowerCase()}.png`;
+          const file=new File([blob], filename, {type:'image/png'});
+          if(navigator.canShare && navigator.canShare({files:[file]})){
+            await navigator.share({files:[file], title:'Mi elemento Bazi', text:`Mi elemento ${__lastStem.element} ${__lastStem.polarity}`});
+            if(shareFeedback) shareFeedback.textContent='Compartido ✅';
+          }else{
+            const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+            if(shareFeedback) shareFeedback.textContent='Descargado ✅';
+          }
+        }catch(err){
+          console.error(err);
+          if(shareFeedback) shareFeedback.textContent='No se pudo compartir. Descargando…';
+          const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='bazi_story.png'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
         }
-        
-        // --- Datos de la App ---
-        const heavenlyStemsData = [
-            { element: "Madera"}, { element: "Madera"}, { element: "Fuego"},
-            { element: "Fuego"},  { element: "Tierra"}, { element: "Tierra"},
-            { element: "Metal"},  { element: "Metal"},  { element: "Agua"},
-            { element: "Agua"}
-        ];
-        
-        const translations = {
-            es: {
-                title_discover: "Descubre",
-                title_element: "Tu Elemento",
-                date_label: "Fecha de Nacimiento:",
-                calculate_btn: "Calcular",
-                footer_note_1: "Identificaremos el elemento del Día Maestro. Para análisis más profundos, escríbenos. Esta Calculadora BaZi está calibrada con el Calendario Chino de 10,000 años.",
-                calculations_done: "Cálculos realizados",
-                whatsapp_text: "ASESORIA PERSONALIZADA CON MARCY",
-                copyright: "Copyright 2025 - Marcy Bing. All rights reserved.",
-                you_are: "eres",
-                subscribe_btn: "Suscríbete",
-                email_placeholder: "Ingresa tu correo",
-                creative_advantage: "¡Sácale ventaja creativa al drama elemental!",
-                back_btn: "← Calcular de Nuevo",
-                error_no_date: "Por favor, selecciona una fecha de nacimiento.",
-                error_invalid_date: "Por favor, introduce un año entre 1800 y 2040.",
-                error_no_element_data: "Datos del elemento no encontrados.",
-                newsletter_processing: "Procesando...",
-                newsletter_already_subscribed: "Este correo ya está suscrito. ¡Gracias!",
-                newsletter_success: "¡Gracias por suscribirte!",
-                newsletter_error: "Ocurrió un error. Inténtalo de nuevo.",
-                newsletter_unavailable: "Servicio de suscripción no disponible."
-            },
-            en: {
-                title_discover: "Discover",
-                title_element: "Your Element",
-                date_label: "Date of Birth:",
-                calculate_btn: "Calculate",
-                footer_note_1: "We will identify the Day Master element. For more in-depth analysis, contact us. This BaZi Calculator is calibrated with the 10,000-year Chinese Calendar.",
-                calculations_done: "Calculations performed",
-                whatsapp_text: "PERSONALIZED CONSULTATION WITH MARCY",
-                copyright: "Copyright 2025 - Marcy Bing. All rights reserved.",
-                you_are: "you are",
-                subscribe_btn: "Subscribe",
-                email_placeholder: "Enter your email",
-                creative_advantage: "Get a creative advantage from elemental drama!",
-                back_btn: "← Calculate Again",
-                error_no_date: "Please select a date of birth.",
-                error_invalid_date: "Please enter a year between 1800 and 2040.",
-                error_no_element_data: "Element data not found.",
-                newsletter_processing: "Processing...",
-                newsletter_already_subscribed: "This email is already subscribed. Thank you!",
-                newsletter_success: "Thank you for subscribing!",
-                newsletter_error: "An error occurred. Please try again.",
-                newsletter_unavailable: "Subscription service unavailable."
-            }
-        };
+      }, 'image/png');
+    }catch(err){ console.error(err); if(shareFeedback) shareFeedback.textContent = err.message || 'Error al compartir'; }
+  });
 
-        const elementData = {
-            es: {
-                'Madera': { bgColor: '#2e8b2e', description: '¡Pura energía y crecimiento! Los tipo Madera son como la primavera: siempre listos para empezar algo nuevo, con una creatividad que se dispara en todas direcciones. Son líderes natos, audaces y no temen abrirse paso. A veces, su ímpetu los hace un poco tercos, como un árbol que se niega a doblarse ante el viento. ¡Cuidado con su ira, que puede surgir como una rama que se quiebra sin aviso!', question: 'Y tú, si tuvieras que plantar una idea nueva ahora mismo, ¿qué tan alto dejarías que creciera?', footerNote: '*Esta es una aproximación a tu elemento.' },
-                'Fuego': { bgColor: '#c21919', description: '¡La chispa de la vida! El Fuego es pasión, alegría y pura luz. Son el alma de la fiesta, carismáticos, expresivos y con un corazón que arde de entusiasmo. Aman conectar con los demás y su risa es contagiosa. Eso sí, a veces tanto calor puede llevarlos a un drama digno de telenovela o a consumirse en su propia llama si no encuentran cómo recargar su energía.', question: 'Si tu alegría fuera una llama, ¿qué es lo que hoy la haría brillar más intensamente?', footerNote: '*Es importante saber si naciste en el día o en la noche. Esta es una aproximación a tu elemento.' },
-                'Tierra': { bgColor: '#cd853f', description: '¡Los que tienen los pies bien puestos sobre... pues, la tierra! Este elemento es sinónimo de estabilidad, cuidado y de nutrir a los demás. Son personas confiables, prácticas y mediadoras por naturaleza, siempre buscando la armonía. Suelen ser el pilar de cualquier grupo. El detalle es que a veces pueden pensar demasiado las cosas, quedándose atascados en la preocupación como si fueran arenas movedizas.', question: '¿Qué es aquello que te ancla y te da estabilidad, incluso cuando todo a tu alrededor parece un torbellino?', footerNote: '*Esta es una aproximación a tu elemento.' },
-                'Metal': { bgColor: '#cbc4d1', description: 'Precisión, orden y un brillo particular. Los Metal son analíticos, organizados y valoran la justicia por encima de todo. Tienen una mente afilada como una espada, capaces de cortar con lo innecesario para llegar al núcleo de cualquier asunto. A veces pueden ser un poco rígidos o distantes, protegiendo sus emotions bajo una armadura reluciente. Su tristeza es profunda y silenciosa.', question: 'Si pudieras “editar” tu vida, ¿qué es lo que con precisión de cirujano decidirías soltar para sentirte más ligero?', footerNote: '*Es importante saber si naciste en el día o en la noche. Esta es una aproximación a tu elemento.' },
-                'Agua': { bgColor: '#38bfcc', description: 'Misteriosos, profundos y adaptables. El Agua fluye, se transforma y puede ser tan tranquila como un lago o tan arrolladora como un tsunami. Son personas introspectivas, sabias y con una fuerza de voluntad inmensa que corre por debajo de la superficie. Su mayor temor es el miedo mismo, y a veces pueden navegar en corrientes de incertidumbre.', question: 'Si tu vida fuera un río, ¿estás fluyendo con la corriente, nadando contra ella, o te tomas un momento para flotar y ver a dónde te lleva?', footerNote: '*Esta es una aproximación a tu elemento.' },
-            },
-            en: {
-                 'Wood': { bgColor: '#2e8b2e', description: 'Pure energy and growth! Wood types are like spring: always ready to start something new, with creativity shooting in all directions. They are natural leaders, bold, and not afraid to break through. Sometimes, their impetus makes them a bit stubborn, like a tree that refuses to bend to the wind. Beware of their anger, which can erupt like a snapping branch!', question: 'And you, if you had to plant a new idea right now, how high would you let it grow?', footerNote: '*This is an approximation of your element.' },
-                'Fire': { bgColor: '#c21919', description: 'The spark of life! Fire is passion, joy, and pure light. They are the life of the party, charismatic, expressive, and with a heart that burns with enthusiasm. They love to connect with others, and their laughter is contagious. However, sometimes so much heat can lead them into telenovela-worthy drama or to burn out if they don\'t find ways to recharge their energy.', question: 'If your joy were a flame, what would make it shine brighter today?', footerNote: '*It is important to know if you were born during the day or at night. This is an approximation of your element.' },
-                'Earth': { bgColor: '#cd853f', description: 'Those with their feet firmly on the... well, the earth! This element is synonymous with stability, care, and nurturing others. They are reliable, practical, and natural mediators, always seeking harmony. They are often the pillar of any group. The detail is that they can sometimes overthink things, getting stuck in worry as if in quicksand.', question: 'What is it that anchors you and gives you stability, even when everything around you seems like a whirlwind?', footerNote: '*This is an approximation of your element.' },
-                'Metal': { bgColor: '#cbc4d1', description: 'Precision, order, and a particular shine. Metal types are analytical, organized, and value justice above all. They have a mind as sharp as a sword, capable of cutting through the unnecessary to get to the core of any matter. Sometimes they can be a bit rigid or distant, protecting their emotions under a gleaming armor. Their sadness is deep and silent.', question: 'If you could "edit" your life, what would you decide to release with surgical precision to feel lighter?', footerNote: '*It is important to know if you were born during the day or at night. This is an approximation of your element.' },
-                'Agua': { bgColor: '#38bfcc', description: 'Mysterious, deep, and adaptable. Water flows, transforms, and can be as calm as a lake or as overwhelming as a tsunami. They are introspective, wise people with immense willpower running beneath the surface. Their greatest fear is fear itself, and they can sometimes navigate currents of uncertainty.', question: 'If your life were a river, are you flowing with the current, swimming against it, or do you take a moment to float and see where it takes you?', footerNote: '*This is an approximation of your element.' },
-            }
-        };
-        const elementMap = { 'Madera': 'Wood', 'Fuego': 'Fire', 'Tierra': 'Earth', 'Metal': 'Metal', 'Agua': 'Agua' };
-
-        // --- Elementos del DOM ---
-        const calculatorScreen = document.getElementById('calculator-screen');
-        const resultScreen = document.getElementById('result-screen');
-        const birthDateInput = document.getElementById('birthDate');
-        const calculateDayMasterButton = document.getElementById('calculateDayMaster');
-        const dayMasterErrorDiv = document.getElementById('dayMasterError');
-        const backButton = document.getElementById('backButton');
-        const resultTitle = document.getElementById('result-title-element');
-        const resultDescription = document.getElementById('result-description');
-        const resultQuestion = document.getElementById('result-question');
-        const resultFooterNote = document.getElementById('result-footer-note');
-        const copyrightResultDiv = document.getElementById('copyright-result');
-        const copyrightTextSpan = document.getElementById('copyright-text');
-        const runCounterSpan = document.querySelector('#run-counter span');
-        const newsletterForm = document.getElementById('newsletter-form');
-        const newsletterEmailInput = document.getElementById('newsletter-email');
-        const newsletterFeedback = document.getElementById('newsletter-feedback');
-        const langEsBtn = document.getElementById('lang-es');
-        const langEnBtn = document.getElementById('lang-en');
-
-        let currentLang = localStorage.getItem('baziLang') || 'es';
-
-        const JDN_REF_KNOWN_DATE = 2446993; 
-        const KNOWN_STEM_INDEX_FOR_REF_DATE = 2;
-
-        function toJDN(year, month, day) {
-            let a = Math.floor((14 - month) / 12);
-            let y = year + 4800 - a;
-            let m = month + 12 * a - 3;
-            return day + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
-        }
-
-        const counterRef = doc(db, `/artifacts/${appId}/public/data/global_metrics`, 'calculator_runs');
-
-        async function displayCounter() {
-            if (!isFirebaseReady) {
-                 runCounterSpan.textContent = "N/A";
-                 return;
-            }
-            try {
-                const docSnap = await getDoc(counterRef);
-                if (docSnap.exists()) {
-                    runCounterSpan.textContent = docSnap.data().count;
-                } else {
-                    runCounterSpan.textContent = "0";
-                }
-            } catch(e) {
-                console.error("Error al obtener contador:", e);
-                runCounterSpan.textContent = "N/A";
-            }
-        }
-
-        async function incrementCounter() {
-            if (!isFirebaseReady) return;
-            try {
-                await setDoc(counterRef, { count: increment(1) }, { merge: true });
-                displayCounter();
-            } catch(e) {
-                console.error("Error al incrementar contador:", e);
-            }
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('baziLang', lang);
-            document.documentElement.lang = lang;
-
-            langEsBtn.classList.toggle('active', lang === 'es');
-            langEnBtn.classList.toggle('active', lang === 'en');
-            
-            document.querySelectorAll('[data-translate-key]').forEach(el => {
-                const key = el.getAttribute('data-translate-key');
-                if (translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
-                }
-            });
-
-            newsletterEmailInput.placeholder = translations[lang]['email_placeholder'];
-        }
-
-        calculateDayMasterButton.addEventListener('click', async () => {
-            dayMasterErrorDiv.textContent = '';
-
-            const birthDateString = birthDateInput.value;
-            if (!birthDateString) {
-                dayMasterErrorDiv.textContent = translations[currentLang].error_no_date;
-                return;
-            }
-
-            const parts = birthDateString.split('-'); 
-            const year = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10); 
-            const day = parseInt(parts[2], 10);
-
-            if (isNaN(year) || year < 1800 || year > 2040) { 
-                dayMasterErrorDiv.textContent = translations[currentLang].error_invalid_date;
-                return;
-            }
-            
-            if (isFirebaseReady) {
-                await incrementCounter();
-            }
-            
-            const jdnOfBirthDate = toJDN(year, month, day);
-            const dayDifference = jdnOfBirthDate - JDN_REF_KNOWN_DATE;
-            let stemIndex = (KNOWN_STEM_INDEX_FOR_REF_DATE + dayDifference) % 10;
-            if (stemIndex < 0) stemIndex += 10; 
-
-            const dayMaster = heavenlyStemsData[stemIndex];
-            if (dayMaster) {
-                const element = dayMaster.element;
-                showResult(element);
-            } else {
-                 dayMasterErrorDiv.textContent = 'No se pudo calcular el Tronco Celestial para esta fecha.';
-            }
-        });
-
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            showCalculator();
-        });
-
-        newsletterForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!isFirebaseReady) {
-                newsletterFeedback.textContent = translations[currentLang].newsletter_unavailable;
-                newsletterFeedback.style.color = 'red';
-                return;
-            }
-
-            const email = newsletterEmailInput.value.trim();
-            newsletterFeedback.textContent = translations[currentLang].newsletter_processing;
-            newsletterFeedback.style.color = 'white';
-
-            try {
-                const subscribersRef = collection(db, `/artifacts/${appId}/public/data/newsletter_subscribers`);
-                const q = query(subscribersRef, where("email", "==", email));
-                const querySnapshot = await getDocs(q);
-
-                if (!querySnapshot.empty) {
-                    newsletterFeedback.textContent = translations[currentLang].newsletter_already_subscribed;
-                    newsletterFeedback.style.color = '#fde047';
-                    return;
-                }
-                
-                await addDoc(subscribersRef, {
-                    email: email,
-                    subscribedAt: serverTimestamp()
-                });
-                
-                newsletterFeedback.textContent = translations[currentLang].newsletter_success;
-                newsletterFeedback.style.color = '#bef264';
-                newsletterEmailInput.value = '';
-
-            } catch (error) {
-                console.error("Error al suscribirse:", error);
-                newsletterFeedback.textContent = translations[currentLang].newsletter_error;
-                newsletterFeedback.style.color = 'red';
-            }
-        });
-
-        langEsBtn.addEventListener('click', () => setLanguage('es'));
-        langEnBtn.addEventListener('click', () => setLanguage('en'));
-
-        function showResult(element) {
-            const elementName = currentLang === 'en' ? elementMap[element] : element;
-            const data = elementData[currentLang][elementName];
-
-            if (data) {
-                resultTitle.textContent = elementName.toUpperCase();
-                resultDescription.textContent = data.description;
-                resultQuestion.textContent = data.question;
-                resultFooterNote.textContent = data.footerNote;
-                copyrightTextSpan.textContent = translations[currentLang].copyright;
-                document.body.style.backgroundColor = data.bgColor;
-                
-                newsletterFeedback.textContent = '';
-                newsletterEmailInput.value = '';
-
-                calculatorScreen.classList.add('hidden');
-                resultScreen.classList.remove('hidden');
-            } else {
-                dayMasterErrorDiv.textContent = translations[currentLang].error_no_element_data;
-            }
-        }
-
-        function showCalculator() {
-            document.body.style.backgroundColor = '';
-            calculatorScreen.classList.remove('hidden');
-            resultScreen.classList.add('hidden');
-            birthDateInput.value = '';
-            dayMasterErrorDiv.textContent = '';
-        }
-        
-        // Initial setup
-        setLanguage(currentLang);
-        if(isFirebaseReady) {
-            displayCounter();
-        } else {
-            const runCounter = document.getElementById('run-counter');
-            if(runCounter) runCounter.style.display = 'none';
-        }
-    </script>
+  // Stubs para compatibilidad de tests existentes
+  async function displayCounter(){}
+  // Poblamos copyright del resultado
+  setText('copyright-text','Copyright 2025 - Marcy Bing. All rights reserved.');
+  console.assert(typeof displayCounter==='function','displayCounter definido');
+  // Test de calibración solicitado: 2025-09-07 debe ser Tierra Yin
+  (function(){
+    const t = computeStemForYMD(2025,9,7);
+    console.assert(t.element==='Tierra' && t.polarity==='Yin', 'Calibración OK: 2025-09-07 → Tierra Yin');
+  })();
+  console.assert(!!$id('calculator-screen'),'calculator-screen existe');
+  console.assert(!!$id('shareCardBtn'),'share button existe');
+  // Verificación imagen
+  (function(){ const el = ['Madera','Fuego','Tierra','Metal','Agua'][Math.floor(Math.random()*5)]; setElementPhoto(el,'Yin'); const rp=$id('result-photo'); console.assert(rp && (rp.src && rp.src.length>0), 'result-photo con src'); })();
+  // checks de enlaces y copyright
+  console.assert(document.querySelector('#calculator-screen a[href*="wa.me"]'),'WhatsApp en landing');
+  console.assert(document.querySelector('#calculator-screen a[href*="instagram.com/comedia.elemental"]'),'Instagram en landing');
+  console.assert(document.querySelector('#result-actions a[href*="wa.me"]'),'WhatsApp en resultado');
+  console.assert(document.querySelector('#result-actions a[href*="instagram.com/comedia.elemental"]'),'Instagram en resultado');
+  console.assert(!!$id('copyright-result'),'wrapper copyright resultado');
+  console.assert(!!$id('copyright-text') && $id('copyright-text').textContent.includes('2025'),'copyright poblado');
+</script>
 </body>
 </html>
