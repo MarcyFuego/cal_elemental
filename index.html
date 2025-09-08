@@ -15,8 +15,8 @@
     <meta property="og:description" content="Calcula tu elemento. Descubre tu energía y aprende a comunicarte mejor, con humor (Comedia Elemental).">
     <meta property="og:url" content="https://marcyfuego.github.io/cal_elemental/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://placehold.co/600x600/ec4899/FFFFFF?text=Descubre%0Atu%0AElemento">
-    <link rel="icon" type="image/png" href="https://placehold.co/32x32/ec4899/FFFFFF?text=★">
+    <meta property="og:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23d8b4fe'/%3E%3Cpath d='M32 10c-6 7-8 14-7 19 2 8 10 11 10 18 0 7-6 12-12 12s-12-5-12-13c0-12 10-19 16-26 3-3 4-8 5-13 6 4 8 10 9 15 1 5-2 9-1 13 1 5 4 8 8 8 3 0 5-2 6-5 5 5 7 10 7 16 0 12-10 22-22 22S10 56 10 44c0-8 4-16 9-21 6-6 13-10 13-13z' fill='%23ff7a00'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23d8b4fe'/%3E%3Cpath d='M32 10c-6 7-8 14-7 19 2 8 10 11 10 18 0 7-6 12-12 12s-12-5-12-13c0-12 10-19 16-26 3-3 4-8 5-13 6 4 8 10 9 15 1 5-2 9-1 13 1 5 4 8 8 8 3 0 5-2 6-5 5 5 7 10 7 16 0 12-10 22-22 22S10 56 10 44c0-8 4-16 9-21 6-6 13-10 13-13z' fill='%23ff7a00'/%3E%3C/svg%3E">
 
   
   <style>
@@ -95,11 +95,31 @@
 .section-title{font-weight:700;letter-spacing:.02em;text-transform:none}
 .feature-list{list-style:disc;padding-left:1rem}
 .hidden{display:none}
+.brand-icon{width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18))}
+@media(min-width:768px){.brand-icon{width:160px;height:160px}}
 </style>
   <!-- html2canvas for sharing -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body class="state-landing">
+  <!-- Inline SVG brand icon (no external assets) -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <defs>
+      <linearGradient id="ce-flame" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ff7a00"/>
+        <stop offset="100%" stop-color="#ff3d3d"/>
+      </linearGradient>
+      <radialGradient id="ce-core" cx="50%" cy="88%" r="110%">
+        <stop offset="0%" stop-color="#fff6a6"/>
+        <stop offset="100%" stop-color="#ffd84d"/>
+      </radialGradient>
+      <symbol id="ce-brand-icon" viewBox="0 0 256 256">
+        <circle cx="128" cy="128" r="112" fill="#d8b4fe"/>
+        <path d="M148 46c-24 18-40 44-36 66 4 22 24 30 24 50 0 20-16 36-36 36s-36-16-36-38c0-32 28-52 48-72 10-10 14-22 16-36 10 7 18 20 20 34 2 12-4 24-2 34 2 12 10 18 18 18 8 0 12-6 14-12 12 12 18 26 18 42 0 36-30 66-66 66s-66-30-66-66c0-26 12-48 28-64 16-16 38-28 48-42z" fill="url(#ce-flame)"/>
+        <path d="M128 100c-16 14-24 28-18 44 6 16 18 24 32 24s28-12 28-28c0-12-8-22-16-32-6-8-8-14-8-20-10 10-16 16-18 16z" fill="url(#ce-core)" transform="translate(0,18)"/>
+      </symbol>
+    </defs>
+  </svg>
   <div id="landingGradient" class="landing-gradient"></div>
   <div id="aurora" class="aurora">
     <div class="blob b1"></div>
@@ -111,6 +131,7 @@
   <div id="calculator-screen" class="screen">
     <div class="main-container">
       <header class="hero-wrap">
+        <svg id="brandIconLanding" class="brand-icon" role="img" aria-label="Icono Comedia Elemental"><use href="#ce-brand-icon"></use></svg>
         <h1 class="title-calculadora">Calculadora</h1>
         <h2 class="title-bubble">elemental</h2>
         <div class="tagline">Descubre tu elemento</div>
@@ -155,9 +176,8 @@
     <div id="result-content-container" class="result-container">
       <div id="result-card" class="result-card">
         <section id="result-hero" class="result-hero grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-          <div class="photo-wrap flex justify-center md:justify-start">
-            <div class="photo-blob"></div>
-            <img id="result-photo" class="photo-img rounded-[22px] object-cover w-[260px] h-[260px] md:w-[320px] md:h-[220px]" alt="Foto relacionada al elemento" referrerpolicy="no-referrer" loading="lazy" decoding="async"/>
+          <div class="brand-wrap flex justify-center md:justify-start">
+            <svg id="brandIconResult" class="brand-icon" role="img" aria-label="Icono Comedia Elemental"><use href="#ce-brand-icon"></use></svg>
           </div>
           <div class="hero-text text-center md:text-left flex flex-col justify-center">
             <div class="hero-label">Elemento</div>
@@ -280,48 +300,7 @@
     Tierra:{ elementDesc:'Tierra es estabilidad útil.', Yin:{hook:'tierra fértil que absorbe y hace crecer todo y a todos menos tu', desc:'Nutre y convierte caos en algo simple, fácil de digerir, Nutridora y receptiva. Absorbe, cuida y ayuda a crecer (a veces a costa propia).', positives:['Generosidad; paciencia; aceptación; ingenio práctico; abundantes recursos “ocultos”.'], negatives:['Se sobrecarga','Evita conflicto, Se deja explotar; dificultad para poner límites; carga emocional ajena; pasividad.'], viral:'¿Qué cuidado te das primero? ¿Cuidarte es amor… o me volví tu maceta humana?'}, Yang:{hook:'Yo Montaña: firme hoy, firme mañana.”', desc:'Estructura y calma en tormenta, Estabilidad total. Paciente, confiable y guardián del secreto; defiende el terreno sin drama.', positives:['Estabilidad','Cumplimiento, Fortaleza; temple; lealtad; visión eterna; contención para todos.'], negatives:['Terquedad','Lentitud al cambiar, lentitud para moverse; poca flexibilidad; distancia emocional.'], viral:'¿Qué vale mover tu montaña?' } },
     Metal:{ elementDesc:'Metal es claridad y estándar.', Yin:{hook:'Precisión que brilla (y corta).', desc:'Brillo, Glamour; Pensamiento lateral que sorprende, Precisión, Estética + detalle. Le importa el acabado perfecto y llegar al punto sin rodeos..', positives:['Orden; memoria fina; estándar alto; presencia escénica; criterio estético.'], negatives:['Perfeccionismo; “nit-picking”; soledad por estándares elevados; vanidad ocasional.'], viral:'¿Busco perfección o felicidad? (¿Se vale las dos sin Excel emocional?)'}, Yang:{hook:'Espada justa: corto el drama, no la verdad', desc:'Acción y justicia. Disciplina que abre camino, protege y decide cuando otros dudan.', positives:['Disciplina','Valentía, determinación, liderazgo, criterio claro, aguante bajo presión.'], negatives:['Brusquedad; impulsividad táctica; arrepentimientos duros; poca diplomacia.'], viral:'¿Quiero tener la razón… o quiero tener paz?'} },
     Agua:{ elementDesc:'Agua es visión y aprendizaje.', Yin:{hook:'Sabia, cambiante, inspiradora; camaleónica', desc:'Sensible, sutil y cuidador. Evita el daño, se adapta al ambiente y sabe retirarse a tiempo.', positives:['Empatía','Ideas frescas, Empatía; ternura; protección de lo frágil; intuición climática/emocional; docencia con niños.'], negatives:['Inconstancia','Sobre‑análisis, Dispersión; falta de forma/identidad clara; evasión ante presión; volubilidad, tristeza, melancolía, depresión'], viral:'Si me pierdo entre nubes, ¿me extrañas… o ni te diste cuenta que estuve?'}, Yang:{hook:'Océano: me adapto, te rodeo y avanzo.”', desc:'Vasto, táctico, copia/pega magistral; libertad como norte, Conexión y curiosidad que suman, Sabiduría en movimiento. Conecta mundos, rodea obstáculos y acumula fuerza bajo la superficie.', positives:['Visión','Networking, Adaptabilidad; intuición; estrategia a presión; hambre de conocimiento.'], negatives:['Dispersión','Impredecible; puede parecer frío; difícil de “contener”; secretos y corrientes internas fuertes.'], viral:'¿¿Fluyo con estrategia… o ando evadiendo a todos como ola chiquita??' } }
-  };
-
-  function createPlaceholderDataURL(element){
-    const pal = {Madera:['#34d399','#065f46'],Fuego:['#ef4444','#7f1d1d'],Tierra:['#d97706','#78350f'],Metal:['#94a3b8','#334155'],Agua:['#38bdf8','#0e7490']};
-    const [c1,c2] = pal[element] || ['#a78bfa','#4c1d95'];
-    const W=640,H=480; const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H; const ctx=canvas.getContext('2d');
-    // fondo gradiente
-    const g=ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,c1); g.addColorStop(1,c2); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    // silueta simple (cabeza + cuerpo)
-    ctx.fillStyle='rgba(255,255,255,0.9)';
-    // cabeza
-    ctx.beginPath(); ctx.arc(W*0.5,H*0.36,56,0,Math.PI*2); ctx.fill();
-    // cuerpo
-    ctx.beginPath(); ctx.moveTo(W*0.32,H*0.55); ctx.quadraticCurveTo(W*0.5,H*0.48,W*0.68,H*0.55); ctx.lineTo(W*0.74,H*0.88); ctx.lineTo(W*0.26,H*0.88); ctx.closePath(); ctx.fill();
-    // texto del elemento
-    ctx.font='700 34px Inter, system-ui, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.textAlign='center';
-    ctx.fillText(element||'Elemento', W*0.5, H*0.16);
-    return canvas.toDataURL('image/png');
-  }
-  function setElementPhoto(element, polarity){
-    const img=$id('result-photo'); if(!img) return;
-    // Si se definió una URL directa para Tierra Yin (por ejemplo, data:base64), usarla
-    if(element==='Tierra' && polarity==='Yin' && typeof window!=='undefined' && window.TIERRA_YIN_URL){
-      img.src = window.TIERRA_YIN_URL; return;
-    }
-    const base=(window.ASSET_BASE||'assets').replace(/\/$/,'');
-    const byPolarity={
-      Madera:{Yin:'madera-yin.jpg',Yang:'madera-yang.jpg'},
-      Fuego:{Yin:'fuego-yin.jpg',Yang:'fuego-yang.jpg'},
-      Tierra:{Yin:'tierra-yin.jpg',Yang:'tierra-yang.jpg'},
-      Metal:{Yin:'metal-yin.jpg',Yang:'metal-yang.jpg'},
-      Agua:{Yin:'agua-yin.jpg',Yang:'agua-yang.jpg'}
-    };
-    const generic={Madera:'madera.jpg',Fuego:'fuego.jpg',Tierra:'tierra.jpg',Metal:'metal.jpg',Agua:'agua.jpg'};
-    const filename = (byPolarity[element] && byPolarity[element][polarity]) || generic[element] || 'default.jpg';
-    const local=`${base}/${filename}`;
-    img.crossOrigin='anonymous'; img.referrerPolicy='no-referrer'; img.loading='lazy'; img.decoding='async';
-    img.onerror=()=>{ img.onerror=null; img.src=createPlaceholderDataURL(element); };
-    img.src=local;
-  }
-
-  function hydrateResult(stem){
+  };function hydrateResult(stem){
     const { element, polarity } = stem || {};
     const elCopy = copy[element] || {};
     const variant = (elCopy && elCopy[polarity]) || {};
@@ -344,7 +323,6 @@
     setText('result-viral', variant.viral || '');
 
     // Imagen: primero local /assets, si falla → placeholder embebido (compatible con share)
-    setElementPhoto(element, polarity);
 
     // Colores del hero y banda + fondo general
     const base = (elementPalette[element] || '#111827').trim();
@@ -362,6 +340,7 @@
     if(band) band.style.backgroundColor = darker;
     document.body.style.backgroundColor = base;
   }
+
 
   // Handlers
   $id('calculateDayMaster').addEventListener('click', ()=>{
@@ -434,7 +413,7 @@
   console.assert(!!$id('calculator-screen'),'calculator-screen existe');
   console.assert(!!$id('shareCardBtn'),'share button existe');
   // Verificación imagen
-  (function(){ const el = ['Madera','Fuego','Tierra','Metal','Agua'][Math.floor(Math.random()*5)]; setElementPhoto(el,'Yin'); const rp=$id('result-photo'); console.assert(rp && (rp.src && rp.src.length>0), 'result-photo con src'); })();
+  
   // checks de enlaces y copyright
   console.assert(document.querySelector('#calculator-screen a[href*="wa.me"]'),'WhatsApp en landing');
   console.assert(document.querySelector('#calculator-screen a[href*="instagram.com/comedia.elemental"]'),'Instagram en landing');
@@ -445,3 +424,5 @@
 </script>
 </body>
 </html>
+
+
