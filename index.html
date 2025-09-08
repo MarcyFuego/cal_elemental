@@ -61,7 +61,7 @@
     .why-bubble{margin-top:1rem;background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.88));border:2px solid rgba(0,0,0,.06);border-radius:1rem;padding:1rem 1.25rem;box-shadow:0 8px 0 rgba(0,0,0,.06), 0 14px 28px rgba(0,0,0,.12)}
     .why-bubble strong{font-family:'Montserrat',sans-serif;font-weight:400;letter-spacing:.01em}
     .why-bubble em{font-style:normal;font-weight:600}
-    .result-script{font-family:'Pacifico',cursive;font-size:clamp(1.8rem,4vw,3rem);color:rgba(255,255,255,.9);text-shadow:0 2px 0 rgba(0,0,0,.08)}
+    .result-script{font-family:'Pacifico',cursive;font-size:clamp(2.05rem,4vw,3.25rem);color:rgba(255,255,255,.9);text-shadow:0 2px 0 rgba(0,0,0,.08);color:rgba(255,255,255,.9);text-shadow:0 2px 0 rgba(0,0,0,.08)}
     .element-bubble{font-family:'Modak',sans-serif;font-size:clamp(3rem,10vw,7rem);text-transform:uppercase;letter-spacing:.06em;display:inline-block;padding:.1em .25em;border-radius:.35em;color:#fff;background:linear-gradient(180deg,#ffd8ff 0%,#ff9de6 40%,#ff6bd5 70%,#ff40c0 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.85), inset 0 -6px 10px rgba(0,0,0,.12), 0 8px 0 rgba(209,75,176,.6), 0 12px 24px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(255,255,255,.9), 0 2px 0 rgba(255,255,255,.65), 0 3px 0 rgba(209,75,176,.65), 0 8px 18px rgba(0,0,0,.28);animation:floaty 6s ease-in-out infinite alternate}
     .element-bubble:hover{animation:jelly .6s ease}
     .aurora{opacity:0;transition:opacity 1s ease;position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(60px) saturate(120%);}  
@@ -80,14 +80,14 @@
     .result-comedy-sub{font-family:'Pacifico',cursive;font-size:1.05rem;color:#ffffff;opacity:.95;letter-spacing:.02em;margin-top:.15rem}
     .title-calculadora{font-family:'Montserrat',sans-serif;font-weight:600;font-size:clamp(1.8rem,5.5vw,3rem);letter-spacing:.01em;line-height:1.05;color:#0f172a}
     .state-landing .copyright{color:rgba(17,24,39,.7)}
-  .hook{font-family:'Pacifico',cursive;font-size:1.15rem;line-height:1.2;color:#fff;text-shadow:1px 2px 0 rgba(0,0,0,.15)}
+  .hook{font-family:'Pacifico',cursive;font-size:1.4rem;line-height:1.2;line-height:1.2;color:#fff;text-shadow:1px 2px 0 rgba(0,0,0,.15)}
 .landing-gradient{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:1;background:linear-gradient(120deg,#fdf2f8,#e0f2fe,#ecfccb,#fae8ff);background-size:300% 300%;animation:gradMove 20s ease infinite;transition:opacity .8s ease}
 @keyframes gradMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .state-result .landing-gradient{opacity:0}
 .result-card{border-radius:1rem;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.18)}
 .result-hero{color:#fff}
 .hero-label{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;opacity:.9;font-weight:700}
-.hero-phrase{font-family:'Pacifico',cursive;font-size:clamp(1.6rem,4.5vw,2.6rem);line-height:1.1}
+.hero-phrase{font-family:'Pacifico',cursive;font-size:clamp(1.85rem,4.5vw,2.85rem);line-height:1.1;line-height:1.1}
 .hero-sub{font-family:'Inter',sans-serif;font-size:.9rem;opacity:.95}
 .photo-wrap{position:relative}
 .photo-blob{position:absolute;inset:auto auto -14px -14px;width:180px;height:180px;border-radius:46% 54% 58% 42%/50% 41% 59% 50%;background:rgba(255,255,255,.18);filter:blur(0.5px)}
@@ -381,12 +381,6 @@
     const drawW=Math.round(srcCanvas.width*scale), drawH=Math.round(srcCanvas.height*scale);
     const dx=Math.round((SHARE_W-drawW)/2), dy=Math.round((SHARE_H-drawH)/2);
     ctx.drawImage(srcCanvas,dx,dy,drawW,drawH);
-
-    // === Overlay: icono de marca (SVG inline) ===
-    const BRAND_SVG = `<?xml version="1.0" encoding="UTF-8"?><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'><defs><linearGradient id='g1' x1='0' y1='0' x2='0' y2='1'><stop offset='0%' stop-color='#ff7a00'/><stop offset='100%' stop-color='#ff3d3d'/></linearGradient><radialGradient id='g2' cx='50%' cy='88%' r='110%'><stop offset='0%' stop-color='#fff6a6'/><stop offset='100%' stop-color='#ffd84d'/></radialGradient></defs><circle cx='128' cy='128' r='112' fill='#d8b4fe'/><path d='M148 46c-24 18-40 44-36 66 4 22 24 30 24 50 0 20-16 36-36 36s-36-16-36-38c0-32 28-52 48-72 10-10 14-22 16-36 10 7 18 20 20 34 2 12-4 24-2 34 2 12 10 18 18 18 8 0 12-6 14-12 12 12 18 26 18 42 0 36-30 66-66 66s-66-30-66-66c0-26 12-48 28-64 16-16 38-28 48-42z' fill='url(#g1)'/><path d='M128 100c-16 14-24 28-18 44 6 16 18 24 32 24s28-12 28-28c0-12-8-22-16-32-6-8-8-14-8-20-10 10-16 16-18 16z' fill='url(#g2)' transform='translate(0,18)'/></svg>`;
-    const brandUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(BRAND_SVG);
-    await new Promise((resolve)=>{ const img=new Image(); img.onload=()=>{ const size=Math.round(Math.min(SHARE_W,SHARE_H)*0.18); const m=40; const x=SHARE_W - size - m; const y=SHARE_H - size - m; ctx.globalAlpha=0.95; ctx.drawImage(img,x,y,size,size); ctx.globalAlpha=1; resolve(); }; img.src=brandUrl; });
-
     // === Overlay: tag IG + derechos ===
     const year = new Date().getFullYear();
     const line1 = '@comedia.elemental';
