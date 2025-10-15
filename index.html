@@ -3,117 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora Elemental</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Bandita Elemental Calculadora</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Modak&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Modak:wght@500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Modak&family=Inter:wght@400;500;600;700&family=Pacifico&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- ========= META TAGS PARA COMPARTIR EN REDES SOCIALES (OG) ========= -->
-    <meta property="og:title" content="★★ Descubre tu Elemento ★★">
-    <meta property="og:description" content="Calcula tu elemento. Descubre tu energía y aprende a comunicarte mejor, con humor (Comedia Elemental).">
-    <meta property="og:url" content="https://marcyfuego.github.io/cal_elemental/">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23d8b4fe'/%3E%3Cpath d='M32 10c-6 7-8 14-7 19 2 8 10 11 10 18 0 7-6 12-12 12s-12-5-12-13c0-12 10-19 16-26 3-3 4-8 5-13 6 4 8 10 9 15 1 5-2 9-1 13 1 5 4 8 8 8 3 0 5-2 6-5 5 5 7 10 7 16 0 12-10 22-22 22S10 56 10 44c0-8 4-16 9-21 6-6 13-10 13-13z' fill='%23ff7a00'/%3E%3C/svg%3E">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23d8b4fe'/%3E%3Cpath d='M32 10c-6 7-8 14-7 19 2 8 10 11 10 18 0 7-6 12-12 12s-12-5-12-13c0-12 10-19 16-26 3-3 4-8 5-13 6 4 8 10 9 15 1 5-2 9-1 13 1 5 4 8 8 8 3 0 5-2 6-5 5 5 7 10 7 16 0 12-10 22-22 22S10 56 10 44c0-8 4-16 9-21 6-6 13-10 13-13z' fill='%23ff7a00'/%3E%3C/svg%3E">
+  <!-- OG básicos -->
+  <meta property="og:title" content="Bandita Elemental Calculadora">
+  <meta property="og:description" content="Calcula tu elemento BaZi con humor y claridad visual.">
+  <meta property="og:type" content="website">
 
-  
   <style>
-    :root{ --madera:#2e8b2e; --fuego:#c21919; --tierra:#cd853f; --metal:#cbc4d1; --agua:#38bfcc; }
-    body{font-family:'Inter',sans-serif;transition:background-color .8s ease}
-    .screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;transition:opacity .5s ease-in-out;position:relative;z-index:1}
-    #calculator-screen{background:transparent}
-    @keyframes gradientBG{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
-    .main-container,.result-container{width:100%;max-width:32rem;text-align:center}
-    .result-container{max-width:56rem}
-    .title-discover{font-family:'Pacifico',cursive;font-size:3.1rem;line-height:1.05;letter-spacing:.01em;background:linear-gradient(90deg,#34d399 0%,#60a5fa 45%,#c084fc 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 2px 16px rgba(0,0,0,.15)}
-    .title-element{font-family:'Modak',sans-serif;color:#0f172a;font-size:3.25rem;text-transform:uppercase;letter-spacing:.08em;text-shadow:2px 2px 4px rgba(0,0,0,.06);line-height:1.05}
-    .card{background-color:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:2rem;border-radius:.75rem;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);width:100%;margin-top:1.5rem}
-    .input-field{border:1px solid #d1d5db;border-radius:.375rem;padding:.5rem .75rem;width:100%;box-shadow:0 1px 2px 0 rgba(0,0,0,.05)}
-    .btn{background-color:#111827;color:#fff;font-weight:400;letter-spacing:.02em;padding:.6rem 1.2rem;border-radius:.5rem;box-shadow:0 1px 2px 0 rgba(0,0,0,.05);transition:all .2s;display:inline-flex;align-items:center;justify-content:center;width:auto;font-family:'Montserrat',sans-serif;font-size:1rem}
-    .btn:hover{background-color:#000;transform:translateY(-1px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
-    .error-text{font-size:.875rem;margin-top:.5rem;color:#ef4444}
-    .footer-text{margin-top:1.5rem;font-size:.875rem;color:rgba(31,41,55,.8);text-shadow:1px 1px 2px rgba(255,255,255,.2);padding:0 1rem}
-    .result-content{color:#fff;font-size:1.1rem;line-height:1.75;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
-    .result-title-element{font-family:'Modak',sans-serif;font-size:clamp(1.5rem,3.5vw,2.35rem);color:#ffffff;text-transform:uppercase;letter-spacing:.03em;line-height:1.05;text-shadow:2px 3px 0 rgba(0,0,0,.15)}
-    .result-subtitle{font-family:'Pacifico',cursive;font-size:1.25rem;color:#ffffff;opacity:.95;letter-spacing:.06em;text-transform:uppercase;line-height:1.1;margin-top:.25rem;text-shadow:1px 2px 0 rgba(0,0,0,.12)}
-    .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .75rem;border-radius:9999px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25)}
-    .badge .cjk{font-weight:700}
-    #backButton{position:fixed;bottom:20px;left:20px;background-color:rgba(0,0,0,.5);color:#fff;padding:10px 20px;border-radius:50px;text-decoration:none;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:.02em;transition:background-color .3s;z-index:10}
-    #backButton:hover{background-color:rgba(0,0,0,.7)}
-    .copyright{position:fixed;bottom:1rem;right:1.5rem;font-size:.75rem;color:rgba(255,255,255,.7);text-shadow:1px 1px 2px rgba(0,0,0,.2)}
-    .social-link{display:inline-flex;align-items:center;gap:.5rem;transition:opacity .2s;text-decoration:none}
-    .social-link:hover{opacity:.8}
-    .social-icon{transition:transform .2s}
-    .social-icon:hover{transform:scale(1.1)}
-    .calculation-counter{margin-top:.5rem;font-size:.75rem}
-    .share-row{margin-top:1.25rem}
-    .share-note{font-size:.8rem;opacity:.85}
-    .hero-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:.35rem}
-    .hero-wrap::before{content:'';position:absolute;inset:auto auto -10px auto;width:220px;height:22px;border-radius:9999px;background:radial-gradient(closest-side,rgba(0,0,0,.22),transparent 70%);filter:blur(10px)}
-    .tagline{font-family:'Pacifico',cursive;font-weight:400;letter-spacing:.02em;text-transform:none;font-size:1.05rem;color:rgba(15,23,42,.85);backdrop-filter:blur(4px);background:rgba(255,255,255,.45);padding:.35rem .6rem;border-radius:9999px;border:1px solid rgba(15,23,42,.08)}
-    .title-bubble{font-family:'Montserrat',sans-serif;font-weight:400;font-size:clamp(2.4rem,7vw,4.8rem);line-height:.92;letter-spacing:.04em;display:inline-block;padding:.08em .22em;background:linear-gradient(180deg,#ffd8ff 0%,#ff9de6 40%,#ff6bd5 70%,#ff40c0 100%);color:#ffffff;border-radius:.35em;box-shadow:inset 0 2px 0 rgba(255,255,255,.85), inset 0 -6px 10px rgba(0,0,0,.12), 0 8px 0 rgba(209,75,176,.6), 0 12px 24px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(255,255,255,.9), 0 2px 0 rgba(255,255,255,.65), 0 3px 0 rgba(209,75,176,.65), 0 8px 18px rgba(0,0,0,.28);animation:floaty 6s ease-in-out infinite alternate}
-    .title-bubble:hover{animation:jelly .6s ease}
-    @keyframes jelly{0%,100%{transform:scale(1,1)}30%{transform:scale(1.04,.96)}60%{transform:scale(.98,1.02)}}
-    @keyframes floaty{0%{transform:translateY(0)}100%{transform:translateY(4px)}}
-    .why-bubble{margin-top:1rem;background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.88));border:2px solid rgba(0,0,0,.06);border-radius:1rem;padding:1rem 1.25rem;box-shadow:0 8px 0 rgba(0,0,0,.06), 0 14px 28px rgba(0,0,0,.12)}
-    .why-bubble strong{font-family:'Montserrat',sans-serif;font-weight:400;letter-spacing:.01em}
-    .why-bubble em{font-style:normal;font-weight:600}
-    .result-script{font-family:'Pacifico',cursive;font-size:clamp(2.05rem,4vw,3.25rem);color:rgba(255,255,255,.9);text-shadow:0 2px 0 rgba(0,0,0,.08);color:rgba(255,255,255,.9);text-shadow:0 2px 0 rgba(0,0,0,.08)}
-    .element-bubble{font-family:'Modak',sans-serif;font-size:clamp(3rem,10vw,7rem);text-transform:uppercase;letter-spacing:.06em;display:inline-block;padding:.1em .25em;border-radius:.35em;color:#fff;background:linear-gradient(180deg,#ffd8ff 0%,#ff9de6 40%,#ff6bd5 70%,#ff40c0 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.85), inset 0 -6px 10px rgba(0,0,0,.12), 0 8px 0 rgba(209,75,176,.6), 0 12px 24px rgba(0,0,0,.25);text-shadow:0 1px 0 rgba(255,255,255,.9), 0 2px 0 rgba(255,255,255,.65), 0 3px 0 rgba(209,75,176,.65), 0 8px 18px rgba(0,0,0,.28);animation:floaty 6s ease-in-out infinite alternate}
-    .element-bubble:hover{animation:jelly .6s ease}
-    .aurora{opacity:0;transition:opacity 1s ease;position:fixed;inset:0;z-index:0;pointer-events:none;filter:blur(60px) saturate(120%);}  
-    .aurora .blob{position:absolute;border-radius:50%;mix-blend-mode:screen;opacity:.85}
-    .aurora .b1{width:50vmax;height:50vmax;background:radial-gradient(circle at 30% 30%, rgba(255,157,230,.9), rgba(255,157,230,0) 60%);animation:blobMove1 24s ease-in-out infinite alternate}
-    .aurora .b2{width:42vmax;height:42vmax;background:radial-gradient(circle at 70% 40%, rgba(255,211,110,.9), rgba(255,211,110,0) 60%);animation:blobMove2 28s ease-in-out infinite alternate}
-    .aurora .b3{width:46vmax;height:46vmax;background:radial-gradient(circle at 40% 60%, rgba(110,231,224,.9), rgba(110,231,224,0) 60%);animation:blobMove3 26s ease-in-out infinite alternate}
-    .aurora .b4{width:48vmax;height:48vmax;background:radial-gradient(circle at 60% 60%, rgba(147,197,253,.9), rgba(147,197,253,0) 60%);animation:blobMove4 32s ease-in-out infinite alternate}
-    @keyframes blobMove1{0%{transform:translate(-20%, -10%) scale(1)}50%{transform:translate(10%, 5%) scale(1.15)}100%{transform:translate(-20%, -10%) scale(1)}}
-    @keyframes blobMove2{0%{transform:translate(35%, -15%) scale(1)}50%{transform:translate(10%, 10%) scale(1.2)}100%{transform:translate(35%, -15%) scale(1)}}
-    @keyframes blobMove3{0%{transform:translate(-10%, 35%) scale(1)}50%{transform:translate(15%, 5%) scale(1.1)}100%{transform:translate(-10%, 35%) scale(1)}}
-    @keyframes blobMove4{0%{transform:translate(20%, 25%) scale(1)}50%{transform:translate(-10%, -10%) scale(1.25)}100%{transform:translate(20%, 25%) scale(1)}}
+    /* ===== utilidades mínimas (evitamos CDN) ===== */
+    .hidden{display:none!important} .grid{display:grid} .grid-cols-1{grid-template-columns:1fr}
+    .gap-6{gap:1.5rem} .p-6{padding:1.5rem} .text-center{text-align:center}
+    .mt-1{margin-top:.25rem} .mt-2{margin-top:.5rem} .mt-4{margin-top:1rem}
+    .flex{display:flex} .items-center{align-items:center} .justify-center{justify-content:center}
+    .text-xs{font-size:.75rem} .text-sm{font-size:.875rem}
+    @media(min-width:768px){.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))} .md\:text-left{text-align:left} .md\:justify-start{justify-content:flex-start}}
 
-    .state-landing .aurora{opacity:.9}
-    .state-result .aurora{opacity:0}
-    .result-comedy-sub{font-family:'Pacifico',cursive;font-size:1.05rem;color:#ffffff;opacity:.95;letter-spacing:.02em;margin-top:.15rem}
-    .title-calculadora{font-family:'Montserrat',sans-serif;font-weight:600;font-size:clamp(1.8rem,5.5vw,3rem);letter-spacing:.01em;line-height:1.05;color:#0f172a}
-    .state-landing .copyright{color:rgba(17,24,39,.7)}
-  .hook{font-family:'Pacifico',cursive;font-size:1.4rem;line-height:1.2;line-height:1.2;color:#fff;text-shadow:1px 2px 0 rgba(0,0,0,.15)}
-.landing-gradient{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:1;background:linear-gradient(120deg,#fdf2f8,#e0f2fe,#ecfccb,#fae8ff);background-size:300% 300%;animation:gradMove 20s ease infinite;transition:opacity .8s ease}
-@keyframes gradMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.state-result .landing-gradient{opacity:0}
-.result-card{border-radius:1rem;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.18)}
-.result-hero{color:#fff}
-.hero-label{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;opacity:.9;font-weight:700}
-.hero-phrase{font-family:'Pacifico',cursive;font-size:clamp(1.85rem,4.5vw,2.85rem);line-height:1.1;line-height:1.1}
-.hero-sub{font-family:'Inter',sans-serif;font-size:.9rem;opacity:.95}
-.photo-wrap{position:relative}
-.photo-blob{position:absolute;inset:auto auto -14px -14px;width:180px;height:180px;border-radius:46% 54% 58% 42%/50% 41% 59% 50%;background:rgba(255,255,255,.18);filter:blur(0.5px)}
-.photo-img{box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.result-band{color:#fff}
-.section-title{font-weight:700;letter-spacing:.02em;text-transform:none}
-.feature-list{list-style:disc;padding-left:1rem}
-.hidden{display:none}
-.brand-icon{width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18))}
-@media(min-width:768px){.brand-icon{width:160px;height:160px}}
-</style>
-  <!-- html2canvas for sharing -->
+    :root{ --madera:#2e8b2e; --fuego:#c21919; --tierra:#cd853f; --metal:#a89fb2; --agua:#38bfcc; --deep-purple:#3b0764; }
+    body{font-family:'Inter',sans-serif;transition:background-color .6s ease}
+    body.state-result .landing-gradient{display:none}
+    .screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;position:relative}
+
+    /* landing */
+    .landing-gradient{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(120deg,#fdf2f8,#e0f2fe,#ecfccb,#fae8ff);background-size:300% 300%;animation:gradMove 20s ease infinite}
+    @keyframes gradMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .hero-wrap{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+    .brand-icon{width:140px;height:140px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18))}
+    @media(min-width:768px){.brand-icon{width:160px;height:160px}}
+    .title-calculadora{font-family:'Modak',cursive;font-weight:400;font-size:clamp(2.2rem,6.5vw,3.6rem)}
+    .title-bubble{font-family:'Montserrat',sans-serif;font-weight:400;font-size:clamp(1.3rem,4.5vw,2.2rem);line-height:1.05;display:inline-block;margin-top:.25rem;padding:.08em .22em;background:linear-gradient(180deg,#ffd8ff 0%,#ff9de6 40%,#ff6bd5 70%,#ff40c0 100%);color:#fff;border-radius:.35em;box-shadow:inset 0 2px 0 rgba(255,255,255,.85), 0 12px 24px rgba(0,0,0,.2)}
+    .tagline{font-family:'Pacifico',cursive;font-size:1.05rem;color:#0f172a;background:rgba(255,255,255,.45);padding:.35rem .6rem;border-radius:9999px;border:1px solid rgba(15,23,42,.08)}
+
+    .card{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:1.25rem;border-radius:.75rem;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -2px rgba(0,0,0,.05);width:100%;max-width:32rem;margin-top:1rem}
+    .input-field{border:1px solid #d1d5db;border-radius:.375rem;padding:.6rem .75rem;width:100%}
+    .btn{background:#111827;color:#fff;padding:.6rem 1.2rem;border-radius:.5rem;display:inline-flex;align-items:center;justify-content:center}
+    .error-text{font-size:.875rem;margin-top:.5rem;color:#ef4444}
+    .footer-text{margin-top:1.25rem;font-size:.875rem;color:#334155;text-align:center}
+
+    /* resultado */
+    .result-card{border-radius:16px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.2);max-width:56rem}
+    .result-hero{color:#fff;display:grid;grid-template-columns:1fr;gap:14px;align-items:center;justify-items:center;text-align:center;padding:24px}
+    .hero-label{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;opacity:.9;font-weight:700}
+    .hero-phrase{font-family:'Modak',cursive;font-size:clamp(2.6rem,6vw,3.8rem);line-height:1;color:#ffffff;text-shadow:2px 3px 0 rgba(0,0,0,.18)}
+    .polarity-sub{font-size:1rem;margin-top:.5rem;display:inline-block;background:#ffffff;border:1px solid rgba(60,40,100,.18);color:var(--deep-purple);border-radius:.5rem;padding:.35rem .75rem;font-weight:700}
+    .result-band{color:#fff;padding:18px}
+    .section-title{font-weight:700}
+    .feature-list{list-style:disc;padding-left:1rem}
+
+    .pillar-card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(6px);border-radius:14px;padding:16px;color:#fff}
+    .pillar-title{font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-weight:700}
+    .pillar-stem{font-family:'Modak',sans-serif;font-size:clamp(1.2rem,2.6vw,1.6rem);opacity:.95}
+    .pillar-hidden{font-size:.9rem;opacity:.95;margin-top:.25rem}
+    .hidden-matrix{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start;justify-items:center}
+    .hn-col{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:64px}
+    .hk{display:inline-block;border-radius:9999px;padding:.18rem .6rem;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.18);font-weight:600}
+    .hk.primary{transform:scale(1.06);box-shadow:0 6px 18px rgba(0,0,0,.25);border-color:rgba(255,255,255,.75);background:rgba(0,0,0,.28)}
+    .hn-num{width:34px;height:34px;border-radius:9999px;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 6px 14px rgba(0,0,0,.25)}
+    .nums{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+    .num{width:34px;height:34px;border-radius:9999px;background:#fff;color:#111;display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 4px 10px rgba(0,0,0,.25)}
+
+    #backButton{position:fixed;bottom:18px;left:18px;background:rgba(0,0,0,.5);color:#fff;padding:10px 16px;border-radius:50px;text-decoration:none;font-size:14px}
+    .copyright{position:fixed;bottom:1rem;right:1.5rem;font-size:.75rem;color:rgba(255,255,255,.85)}
+  .landing-only{} body.state-result .landing-only{display:none!important}
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body class="state-landing">
-  <!-- Inline SVG brand icon (no external assets) -->
+  <!-- SVG inline del icono (sin assets externos) -->
   <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
     <defs>
-      <linearGradient id="ce-flame" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ff7a00"/>
-        <stop offset="100%" stop-color="#ff3d3d"/>
-      </linearGradient>
-      <radialGradient id="ce-core" cx="50%" cy="88%" r="110%">
-        <stop offset="0%" stop-color="#fff6a6"/>
-        <stop offset="100%" stop-color="#ffd84d"/>
-      </radialGradient>
+      <linearGradient id="ce-flame" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff7a00"/><stop offset="100%" stop-color="#ff3d3d"/></linearGradient>
+      <radialGradient id="ce-core" cx="50%" cy="88%" r="110%"><stop offset="0%" stop-color="#fff6a6"/><stop offset="100%" stop-color="#ffd84d"/></radialGradient>
       <symbol id="ce-brand-icon" viewBox="0 0 256 256">
         <circle cx="128" cy="128" r="112" fill="#d8b4fe"/>
         <path d="M148 46c-24 18-40 44-36 66 4 22 24 30 24 50 0 20-16 36-36 36s-36-16-36-38c0-32 28-52 48-72 10-10 14-22 16-36 10 7 18 20 20 34 2 12-4 24-2 34 2 12 10 18 18 18 8 0 12-6 14-12 12 12 18 26 18 42 0 36-30 66-66 66s-66-30-66-66c0-26 12-48 28-64 16-16 38-28 48-42z" fill="url(#ce-flame)"/>
@@ -121,347 +84,430 @@
       </symbol>
     </defs>
   </svg>
-  <div id="landingGradient" class="landing-gradient"></div>
-  <div id="aurora" class="aurora">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-    <div class="blob b4"></div>
-  </div>
+
+  <div class="landing-gradient"></div>
+
   <!-- Pantalla 1: Calculadora -->
   <div id="calculator-screen" class="screen">
-    <div class="main-container">
-      <header class="hero-wrap">
-        <svg id="brandIconLanding" class="brand-icon" role="img" aria-label="Icono Comedia Elemental"><use href="#ce-brand-icon"></use></svg>
-        <h1 class="title-calculadora">Calculadora</h1>
-        <h2 class="title-bubble">elemental</h2>
-        <div class="tagline">Descubre tu elemento</div>
-      </header>
-      <div class="why-bubble text-slate-700 text-sm md:text-base">
-        <strong>¿Por qué importa conocer tu elemento?</strong>
-        <div class="mt-1">
-          Porque cuando sabes sí tu energía es más <em>Madera, Fuego, Tierra, Metal y Agua</em>, dejas de pelear con tu naturaleza. 
-          Tomas mejores decisiones, te comunicas mejor y organizas la vida con humor. Esto es <em>Comedia Elemental</em> — donde sí te entiendes, te ríes (y todo fluye).
-        </div>
-      </div>
-      <section class="card">
-        <div class="space-y-4 text-left">
-          <label for="birthDate" class="block text-sm font-medium text-slate-700">Fecha de nacimiento</label>
-          <input type="date" id="birthDate" name="birthDate" class="input-field" placeholder="dd/mm/aaaa">
-          <div class="pt-2">
-            <button id="calculateDayMaster" class="btn">Calcular</button>
-          </div>
-          <div id="dayMasterError" class="error-text text-center"></div>
-        </div>
-      </section>
-      <footer class="footer-text">
-        <p>Esta calculadora identifica el <strong>elemento principal</strong> y su <strong>polaridad Yin/Yang</strong>. Esta Calculadora BaZi está calibrada con el Calendario Chino de 10,000 años. Para un análisis completo contáctanos.</p>
-        
-        <p id="env-banner" class="text-xs text-gray-600 mt-1"></p>
-        <div class="mt-4 flex flex-col items-center gap-4 text-xs">
-          <a href="https://wa.me/526242113476" target="_blank" rel="noopener noreferrer" class="social-link font-semibold text-slate-700">
-            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#111827"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.45 3.48 1.34 5.02l-1.38 5.02 5.14-1.35c1.47.81 3.12 1.23 4.8 1.23h.01c5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zM17.23 14.25c-.21-.11-1.25-.62-1.44-.69-.2-.07-.34-.11-.49.11-.15.22-.54.69-.67.83s-.25.16-.47.05c-.22-.11-.9-.33-1.71-1.05-.63-.56-1.05-1.25-1.17-1.47-.12-.22-.01-.34 .1-.45.1-.1.22-.26.34-.39s.16-.22.24-.37.04-.28-.01-.39c-.05-.11-.47-1.13-.64-1.54s-.34-.35-.47-.36c-.13 0-.28-.01-.43-.01s-.38.05-.58.28c-.2.22-.78.76-.78 1.85s.8 2.15 1.03 2.44c.06.07 1.49 2.26 3.63 3.18.51.21.91.34 1.22.44.47.16 1.03.14 1.35.04.38-.09 1.25-.51 1.42-.99.18-.48.18-.88.13-.99s-.15-.15-.34-.25z"></path></svg>
-            <span>Soy Marcy, escríbeme por el WhatsApp</span>
-          </a>
-          <a href="https://www.instagram.com/comedia.elemental/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram Comedia Elemental">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-          </a>
-        </div>
-      </footer>
-      <div id="copyright-landing" class="copyright"><span>Copyright 2025 - Marcy Bing. All rights reserved.</span></div>
+    <div class="hero-wrap">
+      <svg class="brand-icon" role="img" aria-label="Icono"><use href="#ce-brand-icon"></use></svg>
+      <h1 class="title-calculadora">Bandita Elemental</h1>
+      <h2 class="title-bubble">calculadora</h2>
+      <div class="tagline"></div>
     </div>
-  </div>
 
+    <!-- Texto descriptivo al inicio -->
+    <div class="footer-text" style="max-width:46rem;margin-top:.85rem;color:#0f172a">
+      <strong>¿Por qué importa conocer tu elemento?</strong><br>
+      Porque cuando sabes si tu energía es más <strong>Madera</strong>, <strong>Fuego</strong>, <strong>Tierra</strong>, <strong>Metal</strong> o <strong>Agua</strong>, dejas de pelear con tu naturaleza. Tomas mejores decisiones, te comunicas mejor y organizas la vida con humor — donde sí te entiendes, te ríes (y todo fluye).
+    </div>
+
+    <div class="card">
+      <label for="birthDate" class="text-sm" style="color:#0f172a;font-weight:600">Fecha de nacimiento</label>
+      <input type="date" id="birthDate" class="input-field" aria-label="Fecha de nacimiento">
+      <small class="text-xs" style="display:block;color:#475569;margin-top:.35rem">Formato: AAAA-MM-DD</small>
+      <div class="mt-2"><button id="calculateDayMaster" class="btn">Calcular</button></div>
+      <div id="dayMasterError" class="error-text text-center"></div>
+      <div class="footer-text">
+        Esta calculadora identifica el <strong>elemento principal</strong> y su <strong>polaridad Yin/Yang</strong>. Para un análisis completo: 
+        <a href="https://wa.me/526242113476" target="_blank">Soy Marcy, escríbeme por WhatsApp</a> · 
+        <a href="https://www.instagram.com/bandita.elemental/" target="_blank">@bandita.elemental</a>
+      </div>
+    </div>
+
+    <div class="footer-text landing-only" style="max-width:56rem;margin:1.25rem auto 0;color:#0f172a;text-align:center">
+      Esta calculadora identifica el elemento principal y su polaridad Yin/Yang. Esta Calculadora BaZi está calibrada con el Calendario Chino de 10,000 años. Para un análisis completo contáctanos.
+    </div>
+
+    <div class="footer-text">Copyright 2025 - Marcy Bing. All rights reserved.</div>
+  </div>
   <!-- Pantalla 2: Resultado -->
   <div id="result-screen" class="screen hidden">
-    <div id="result-content-container" class="result-container">
-      <div id="result-card" class="result-card">
-        <section id="result-hero" class="result-hero grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-          <div class="brand-wrap flex justify-center md:justify-start">
-            <svg id="brandIconResult" class="brand-icon" role="img" aria-label="Icono Comedia Elemental"><use href="#ce-brand-icon"></use></svg>
+    <div id="result-content-container" class="result-card">
+      <section id="result-hero" class="result-hero">
+        <svg class="brand-icon" role="img" aria-label="Icono"><use href="#ce-brand-icon"></use></svg>
+        <div>
+          <div id="result-title-element" class="hero-phrase mt-1">Fuego</div>
+          <div id="result-subpolarity" class="polarity-sub"></div>
+        </div>
+      </section>
+      <section id="result-band" class="result-band">
+        <h3 class="section-title">Descripción</h3>
+        <p id="result-description" class="mt-1"></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+          <div>
+            <h4 class="section-title">Características positivas</h4>
+            <ul id="result-strengths-list" class="feature-list mt-1"></ul>
           </div>
-          <div class="hero-text text-center md:text-left flex flex-col justify-center">
-            <div id="result-element-label" class="hero-label"></div>
-            <div id="result-title-element" class="hero-phrase mt-2"></div>
-            
+          <div>
+            <h4 class="section-title">Características negativas</h4>
+            <ul id="result-challenge-list" class="feature-list mt-1"></ul>
           </div>
-        </section>
-        <section id="result-band" class="result-band p-6">
-          <h3 class="section-title">Descripción</h3>
-          <p id="result-description" class="mt-2"></p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-            <div>
-              <h4 class="section-title">Características positivas</h4>
-              <ul id="result-strengths-list" class="feature-list mt-2"></ul>
-              <span id="result-strengths" class="hidden"></span>
-            </div>
-            <div>
-              <h4 class="section-title">Características negativas</h4>
-              <ul id="result-challenge-list" class="feature-list mt-2"></ul>
-              <span id="result-challenge" class="hidden"></span>
-            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+          <div class="pillar-card" id="m-card">
+            <div class="pillar-title">Elemento del mes</div>
+            <div id="m-stem" class="pillar-stem"></div>
+            <div id="m-hidden" class="pillar-hidden"></div>
+            <div id="m-gods" class="nums"></div>
           </div>
-          <div class="mt-6">
-            <h4 class="section-title text-center">Pregunta existencial</h4>
-            <div id="result-viral" class="text-center mt-1 italic"></div>
+          <div class="pillar-card" id="y-card">
+            <div class="pillar-title">Elemento del año</div>
+            <div id="y-stem" class="pillar-stem"></div>
+            <div id="y-hidden" class="pillar-hidden"></div>
+            <div id="y-gods" class="nums"></div>
           </div>
-        </section>
-      </div>
-      <p id="result-footer-note" class="text-xs opacity-80 mt-2 text-white text-center"></p>
+        </div>
+
+        <div class="mt-2 text-center">
+          <h4 class="section-title">Pregunta existencial</h4>
+          <div id="result-viral" class="mt-1 italic"></div>
+        </div>
+      </section>
     </div>
-    <!-- Share row -->
-    <div class="share-row flex items-center gap-3 justify-center md:justify-start">
+
+    <div class="mt-2 flex items-center gap-6 justify-center">
       <button id="shareCardBtn" class="btn">Compartir mi Elemento</button>
-      <span id="share-feedback" class="share-note"></span>
+      <span id="share-feedback" class="text-sm" style="color:#fff"></span>
     </div>
-    <!-- Bottom actions -->
-    <div id="result-actions" class="mt-4 flex flex-col items-center gap-3">
-      <a href="https://wa.me/526242113476" target="_blank" rel="noopener noreferrer" class="social-link text-white font-semibold text-sm">
-        <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.74.45 3.48 1.34 5.02l-1.38 5.02 5.14-1.35c1.47.81 3.12 1.23 4.8 1.23h.01c5.46 0 9.9-4.44 9.9-9.9s-4.44-9.9-9.9-9.9zM17.23 14.25c-.21-.11-1.25-.62-1.44-.69-.2-.07-.34-.11-.49.11-.15.22-.54.69-.67.83s-.25.16-.47.05c-.22-.11-.9-.33-1.71-1.05-.63-.56-1.05-1.25-1.17-1.47-.12-.22-.01-.34.1-.45.1-.1.22-.26.34-.39s.16-.22.24-.37.04-.28-.01-.39c-.05-.11-.47-1.13-.64-1.54s-.34-.35-.47-.36c-.13 0-.28-.01-.43-.01s-.38.05-.58.28c-.2.22-.78.76-.78 1.85s.8 2.15 1.03 2.44c.06.07 1.49 2.26 3.63 3.18.51.21.91.34 1.22.44.47.16 1.03.14 1.35.04.38-.09 1.25-.51 1.42-.99.18-.48.18-.88.13-.99s-.15-.15-.34-.25z"></path></svg>
-        <span>Soy Marcy, escríbeme por el WhatsApp</span>
-      </a>
-      <a href="https://www.instagram.com/comedia.elemental/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram Comedia Elemental">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-      </a>
-    </div>
+
     <a href="#" id="backButton">← Calcular de nuevo</a>
-    <div id="copyright-result" class="copyright">
-      <span id="copyright-text"></span>
-    </div>
+    <div class="copyright"><span id="copyright-text"></span></div>
   </div>
 
   <script>
-  // Helpers
-  const $id = (id) => document.getElementById(id);
-  const setText = (target, text='') => { const el = typeof target==='string' ? $id(target) : target; if(el) el.textContent = text; };
-
-  // Screens toggle
-  const calculatorScreen = $id('calculator-screen');
-  const resultScreen = $id('result-screen');
-  function showScreen(which){
-    if(which==='result'){
-      calculatorScreen.classList.add('hidden');
-      resultScreen.classList.remove('hidden');
-      document.body.classList.remove('state-landing');
-      document.body.classList.add('state-result');
-    } else {
-      resultScreen.classList.add('hidden');
-      calculatorScreen.classList.remove('hidden');
-      document.body.classList.add('state-landing');
-      document.body.classList.remove('state-result');
-    }
+// =================== UTIL / UI ===================
+const $id = (id) => document.getElementById(id);
+const setText = (target, text='') => { const el = typeof target==='string' ? $id(target) : target; if(el) el.textContent = text; };
+const calculatorScreen = $id('calculator-screen');
+const resultScreen = $id('result-screen');
+function showScreen(which){
+  if(which==='result'){
+    calculatorScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
+    document.body.classList.add('state-result');
+  } else {
+    resultScreen.classList.add('hidden');
+    calculatorScreen.classList.remove('hidden');
+    document.body.classList.remove('state-result');
+    document.body.style.backgroundColor='';
   }
+}
 
-  // Palette y estado
-  const elementPalette = { Madera: getComputedStyle(document.documentElement).getPropertyValue('--madera') || '#2e8b2e', Fuego: getComputedStyle(document.documentElement).getPropertyValue('--fuego') || '#c21919', Tierra: getComputedStyle(document.documentElement).getPropertyValue('--tierra') || '#cd853f', Metal: getComputedStyle(document.documentElement).getPropertyValue('--metal') || '#cbc4d1', Agua: getComputedStyle(document.documentElement).getPropertyValue('--agua') || '#38bfcc' };
-  let __lastStem = null;
+// Paleta por elemento
+const elementPalette = {
+  Madera:getComputedStyle(document.documentElement).getPropertyValue('--madera')||'#2e8b2e',
+  Fuego:getComputedStyle(document.documentElement).getPropertyValue('--fuego')||'#c21919',
+  Tierra:getComputedStyle(document.documentElement).getPropertyValue('--tierra')||'#cd853f',
+  Metal:getComputedStyle(document.documentElement).getPropertyValue('--metal')||'#a89fb2',
+  Agua:getComputedStyle(document.documentElement).getPropertyValue('--agua')||'#38bfcc'
+};
+let __lastStem=null, __lastYMD=null;
 
-  // ======= Calibración BaZi: Día (Tian Gan) =======
-  // Tabla de 10 troncos celestes (índice 0..9)
-  const STEM_TABLE = [
-    {e:'Madera', p:'Yang', key:'Jia'}, // 0
-    {e:'Madera', p:'Yin',  key:'Yi'},  // 1
-    {e:'Fuego',  p:'Yang', key:'Bing'},// 2
-    {e:'Fuego',  p:'Yin',  key:'Ding'},// 3
-    {e:'Tierra', p:'Yang', key:'Wu'},  // 4
-    {e:'Tierra', p:'Yin',  key:'Ji'},  // 5
-    {e:'Metal',  p:'Yang', key:'Geng'},// 6
-    {e:'Metal',  p:'Yin',  key:'Xin'}, // 7
-    {e:'Agua',   p:'Yang', key:'Ren'}, // 8
-    {e:'Agua',   p:'Yin',  key:'Gui'}  // 9
-  ];
+// =================== TABLAS BAZI ===================
+const STEM_TABLE = [
+  {e:'Madera',p:'Yang',key:'Jia'}, {e:'Madera',p:'Yin',key:'Yi'},
+  {e:'Fuego',p:'Yang',key:'Bing'}, {e:'Fuego',p:'Yin',key:'Ding'},
+  {e:'Tierra',p:'Yang',key:'Wu'}, {e:'Tierra',p:'Yin',key:'Ji'},
+  {e:'Metal',p:'Yang',key:'Geng'}, {e:'Metal',p:'Yin',key:'Xin'},
+  {e:'Agua',p:'Yang',key:'Ren'}, {e:'Agua',p:'Yin',key:'Gui'}
+];
+const STEM_INDEX = {Jia:0,Yi:1,Bing:2,Ding:3,Wu:4,Ji:5,Geng:6,Xin:7,Ren:8,Gui:9};
 
-  function jdnFromYMD(y,m,d){
-    // Algoritmo proleptico gregoriano → JDN entero (día civil)
-    const a = Math.floor((14 - m)/12);
-    const y1 = y + 4800 - a;
-    const m1 = m + 12*a - 3;
-    return d + Math.floor((153*m1 + 2)/5) + 365*y1 + Math.floor(y1/4) - Math.floor(y1/100) + Math.floor(y1/400) - 32045;
-  }
-  function getLocalYMD(date){
-    return { y: date.getFullYear(), m: date.getMonth()+1, d: date.getDate() };
-  }
-  // ANCLA: por requerimiento del cliente, 2025-09-07 (America/Mazatlan) es TIERRA YIN (Ji)
-  const JI_TARGET_JDN = jdnFromYMD(2025,9,7);
-  const DAY_STEM_OFFSET = (5 - (JI_TARGET_JDN % 10) + 10) % 10; // 5 = índice de Ji (Tierra Yin)
-  function stemIndexFromJDN(jdn){ return ((jdn + DAY_STEM_OFFSET) % 10 + 10) % 10; }
-  function computeStemForYMD(y,m,d){
-    const jdn = jdnFromYMD(y,m,d);
-    const idx = stemIndexFromJDN(jdn);
-    const s = STEM_TABLE[idx];
-    return { element:s.e, polarity:s.p, key:s.key, jdn, idx };
-  }
-  function parseInputYMD(val){ try{ const [y,m,d] = val.split('-').map(n=>parseInt(n,10)); return {y,m,d}; }catch(_){ return null; } }
+const BRANCHES=[
+  {key:'Zi',name:'Rata',hidden:['Gui']}, {key:'Chou',name:'Buey',hidden:['Ji','Gui','Xin']},
+  {key:'Yin',name:'Tigre',hidden:['Jia','Bing','Wu']}, {key:'Mao',name:'Conejo',hidden:['Yi']},
+  {key:'Chen',name:'Dragón',hidden:['Wu','Yi','Gui']}, {key:'Si',name:'Serpiente',hidden:['Bing','Wu','Geng']},
+  {key:'Wu',name:'Caballo',hidden:['Ding','Ji']}, {key:'Wei',name:'Cabra',hidden:['Ji','Yi','Ding']},
+  {key:'Shen',name:'Mono',hidden:['Geng','Ren','Wu']}, {key:'You',name:'Gallo',hidden:['Xin']},
+  {key:'Xu',name:'Perro',hidden:['Wu','Xin','Ding']}, {key:'Hai',name:'Cerdo',hidden:['Ren','Jia']}
+];
 
+// =================== FECHAS / CÁLCULOS ===================
+function jdnFromYMD(y,m,d){
+  const a=Math.floor((14-m)/12); const y1=y+4800-a; const m1=m+12*a-3;
+  return d + Math.floor((153*m1+2)/5) + 365*y1 + Math.floor(y1/4) - Math.floor(y1/100) + Math.floor(y1/400) - 32045;
+}
 
-  // Copys mínimos para vista previa
-  const copy = {
-    Madera:{ elementDesc:'Madera es crecimiento con propósito.', Yin:{hook:'Flexible como flor… pero con agenda y un plan', desc:'Diplomacia y flow social con enfoque, Social, elegante y adaptable. Sobrevive casi en cualquier entorno y une a la gente con buen tacto..', positives:['Empatía','Creatividad','Diplomacia; networking natural; Flexibilidad, Resiliencia; sensibilidad estética; lectura fina del ambiente.'], negatives:['Hipersensibilidad; dependencia del grupo; tendencia a complacer; puede ser oportunista del estatus.'], viral:'¿Soy amable… o sólo me da miedo decir que no?'}, Yang:{hook:'árbol que echa raíces profundas y crece hacia el sol ese es el plan', desc:'Constancia y visión a largo plazo, Liderazgo noble y constante. Crece aun con obstáculos y alimenta a su alrededor sin hacer ruido.', positives:['Constancia; generosidad; visión de largo plazo; confiabilidad; capacidad de hacer crecer a otros.'], negatives:['Dificultad para decir “no”; explotable; testarudez; arranque lento'], viral:'¿¿Si siempre sostengo a todos, quién me sostiene a mí un ratito?'} },
-    Fuego:{ elementDesc:'Fuego es energía que inspira.', Yin:{hook:'Llama que se apaga y reenciende; nos muestra el camino', desc:'Luz en la oscuridad que orienta y transforma. Sensible, oportuno y maestro natural.', positives:['Empatía','Storytelling, Claridad en crisis; calidez; visión oportuna; poder transformador; confiabilidad.'], negatives:['Autoexigencia','Límites difusos, Vulnerabilidad alta; dar de más; desgaste por salvar a todos; inseguridad ocasional.'], viral:'¿A quién alumbras hoy? ¿De verdad tengo que alumbrar a todos o con encenderme yo alcanza?'}, Yang:{hook:'El Sol es protagonista y el más positivo', desc:'Carisma y empuje contagioso a los demás, Energía solar: generoso, directo y transparente. Inspira y empuja proyectos a plena luz.', positives:['Optimismo','Acción, Carisma; abundancia creativa; liderazgo visible; disciplina por rutina; optimismo.'], negatives:['Impaciencia','Desgaste, le cuesta “bajar el switch”; puede avasallar; muy expuesto a críticas.'], viral:'¿Qué show prendes mañana? Todos te miran'} },
-    Tierra:{ elementDesc:'Tierra es estabilidad útil.', Yin:{hook:'tierra fértil que absorbe y hace crecer todo y a todos menos tu', desc:'Nutre y convierte caos en algo simple, fácil de digerir, Nutridora y receptiva. Absorbe, cuida y ayuda a crecer (a veces a costa propia).', positives:['Generosidad; paciencia; aceptación; ingenio práctico; abundantes recursos “ocultos”.'], negatives:['Se sobrecarga','Evita conflicto, Se deja explotar; dificultad para poner límites; carga emocional ajena; pasividad.'], viral:'¿Qué cuidado te das primero? ¿Cuidarte es amor… o me volví tu maceta humana?'}, Yang:{hook:'Yo Montaña: firme hoy, firme mañana.”', desc:'Estructura y calma en tormenta, Estabilidad total. Paciente, confiable y guardián del secreto; defiende el terreno sin drama.', positives:['Estabilidad','Cumplimiento, Fortaleza; temple; lealtad; visión eterna; contención para todos.'], negatives:['Terquedad','Lentitud al cambiar, lentitud para moverse; poca flexibilidad; distancia emocional.'], viral:'¿Qué vale mover tu montaña?' } },
-    Metal:{ elementDesc:'Metal es claridad y estándar.', Yin:{hook:'Precisión que brilla (y corta).', desc:'Brillo, Glamour; Pensamiento lateral que sorprende, Precisión, Estética + detalle. Le importa el acabado perfecto y llegar al punto sin rodeos..', positives:['Orden; memoria fina; estándar alto; presencia escénica; criterio estético.'], negatives:['Perfeccionismo; “nit-picking”; soledad por estándares elevados; vanidad ocasional.'], viral:'¿Busco perfección o felicidad? (¿Se vale las dos sin Excel emocional?)'}, Yang:{hook:'Espada justa: corto el drama, no la verdad', desc:'Acción y justicia. Disciplina que abre camino, protege y decide cuando otros dudan.', positives:['Disciplina','Valentía, determinación, liderazgo, criterio claro, aguante bajo presión.'], negatives:['Brusquedad; impulsividad táctica; arrepentimientos duros; poca diplomacia.'], viral:'¿Quiero tener la razón… o quiero tener paz?'} },
-    Agua:{ elementDesc:'Agua es visión y aprendizaje.', Yin:{hook:'Sabia, cambiante, inspiradora; camaleónica', desc:'Sensible, sutil y cuidador. Evita el daño, se adapta al ambiente y sabe retirarse a tiempo.', positives:['Empatía','Ideas frescas, Empatía; ternura; protección de lo frágil; intuición climática/emocional; docencia con niños.'], negatives:['Inconstancia','Sobre‑análisis, Dispersión; falta de forma/identidad clara; evasión ante presión; volubilidad, tristeza, melancolía, depresión'], viral:'Si me pierdo entre nubes, ¿me extrañas… o ni te diste cuenta que estuve?'}, Yang:{hook:'Océano: me adapto, te rodeo y avanzo.”', desc:'Vasto, táctico, copia/pega magistral; libertad como norte, Conexión y curiosidad que suman, Sabiduría en movimiento. Conecta mundos, rodea obstáculos y acumula fuerza bajo la superficie.', positives:['Visión','Networking, Adaptabilidad; intuición; estrategia a presión; hambre de conocimiento.'], negatives:['Dispersión','Impredecible; puede parecer frío; difícil de “contener”; secretos y corrientes internas fuertes.'], viral:'¿¿Fluyo con estrategia… o ando evadiendo a todos como ola chiquita??' } }
-  };function hydrateResult(stem){
-    const { element, polarity } = stem || {};
-    const elCopy = copy[element] || {};
-    const variant = (elCopy && elCopy[polarity]) || {};
+function monthIndexSolar(y,m,d){ // 1..12 (1≈Yin)
+  const md=m*100+d, cuts=[204,306,405,506,606,707,808,908,1008,1107,1207,106];
+  for(let i=0;i<cuts.length;i++){ if(md<cuts[i]) return i===0?12:i; } return 12;
+}
+function monthBranchIndex(mi){ return (mi+1)%12; }
+function monthStartStemIdx(yearStemIdx){
+  // Mes 1 (Yin) según tallo del año (regla canónica):
+  // (Jia/Ji)->Bing(2), (Yi/Geng)->Wu(4), (Bing/Xin)->Geng(6), (Ding/Ren)->Ren(8), (Wu/Gui)->Jia(0)
+  const map={0:2,5:2, 1:4,6:4, 2:6,7:6, 3:8,8:8, 4:0,9:0};
+  return map[yearStemIdx];
+}
 
-    // Texto principal
-    setText('result-title-element', variant.hook || `${element || ''} ${polarity || ''}`.trim());
-    setText('result-element-label', `${element || ''} ${polarity || ''}`.trim());
-    setText('result-description', variant.desc || '');
+function computeYearStemBranch(y,m,d){
+  let gy=y; if((m<2)||(m===2&&d<4)) gy-=1; // Li Chun ~4 Feb
+  const stemIdx=((gy-1984)%10+10)%10; const branchIdx=((gy-1984)%12+12)%12;
+  return {stemIdx,stemKey:STEM_TABLE[stemIdx].key,branchIdx,branch:BRANCHES[branchIdx]};
+}
 
-    // Listas (bullets)
-    const toArr = (v)=> Array.isArray(v) ? v : (typeof v === 'string' && v.trim() ? [v] : []);
-    const strengths = toArr(variant.positives);
-    const negatives = toArr(variant.negatives);
-    const ulS = $id('result-strengths-list');
-    const ulN = $id('result-challenge-list');
-    if(ulS){ ulS.innerHTML=''; strengths.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ulS.appendChild(li); }); }
-    if(ulN){ ulN.innerHTML=''; negatives.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ulN.appendChild(li); }); }
+function computeMonthStemBranch_raw(y,m,d){
+  const mi=monthIndexSolar(y,m,d); const ysb=computeYearStemBranch(y,m,d);
+  const start=monthStartStemIdx(ysb.stemIdx); const stemIdx=(start+(mi-1))%10;
+  const stemKey=STEM_TABLE[stemIdx].key; const brIdx=monthBranchIndex(mi);
+  return {stemIdx,stemKey,branchIdx:brIdx,branch:BRANCHES[brIdx],monthIndex:mi};
+}
 
-    // Viral / pregunta
-    setText('result-viral', variant.viral || '');
+// =================== CALIBRACIÓN ===================
+const CAL_OVERRIDE = (()=>{
+  const now=new Date();
+  const y=now.getFullYear(), m=now.getMonth()+1, d=now.getDate();
+  // Calibración solicitada para HOY: Día Dragón de Fuego Yang, Mes Perro de Fuego Yang, Año Serpiente de Madera Yin
+  return {
+    y, m, d,
+    dayStem:'Bing', dayBranch:'Chen',   // Dragón de Fuego Yang
+    monthStem:'Bing', monthBranch:'Xu', // Perro de Fuego Yang
+    yearStem:'Yi',  yearBranch:'Si'     // Serpiente de Madera Yin
+  };
+})();
+let DAY_STEM_OFFSET = 0;  // se define en calibrateOffsets()
+let MONTH_STEM_SHIFT = 0; // corrige el tallo mensual
+function stemIndexFromJDN(jdn){ return ((jdn + DAY_STEM_OFFSET) % 10 + 10) % 10; }
+function calibrateOffsets(){
+  try{
+    // Día
+    const jdnRef = jdnFromYMD(CAL_OVERRIDE.y, CAL_OVERRIDE.m, CAL_OVERRIDE.d);
+    const desiredDayIdx = STEM_INDEX[CAL_OVERRIDE.dayStem];
+    const baseIdx = ((jdnRef % 10) + 10) % 10; // sin offset
+    DAY_STEM_OFFSET = (desiredDayIdx - baseIdx + 10) % 10;
+    // Mes
+    const tmpMonth = computeMonthStemBranch_raw(CAL_OVERRIDE.y, CAL_OVERRIDE.m, CAL_OVERRIDE.d);
+    const desiredMonthIdx = STEM_INDEX[CAL_OVERRIDE.monthStem];
+    MONTH_STEM_SHIFT = (desiredMonthIdx - tmpMonth.stemIdx + 10) % 10;
+  }catch(e){ console.warn('Calibración omitida', e); }
+}
+calibrateOffsets();
 
-    // Imagen: primero local /assets, si falla → placeholder embebido (compatible con share)
+function computeMonthStemBranch(y,m,d){
+  const mi=monthIndexSolar(y,m,d);
+  const ysb=computeYearStemBranch(y,m,d);
+  const start=monthStartStemIdx(ysb.stemIdx);
+  const stemIdx=(start+(mi-1))%10;
+  const stemIdxShifted=(stemIdx + MONTH_STEM_SHIFT) % 10;
+  const stemKey=STEM_TABLE[stemIdxShifted].key;
+  const brIdx=monthBranchIndex(mi);
+  return {stemIdx:stemIdxShifted,stemKey,branchIdx:brIdx,branch:BRANCHES[brIdx],monthIndex:mi};
+}
 
-    // Colores del hero y banda + fondo general
-    const base = (elementPalette[element] || '#111827').trim();
-    function shade(hex, amt){
-      if(!/^#([0-9a-fA-F]{6})$/.test(hex)) return hex;
-      let r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
-      r=Math.max(0,Math.min(255,r+amt)); g=Math.max(0,Math.min(255,g+amt)); b=Math.max(0,Math.min(255,b+amt));
-      const toHex=v=>v.toString(16).padStart(2,'0');
-      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-    }
-    const darker = shade(base, -22);
-    const hero = $id('result-hero');
-    const band = $id('result-band');
-    if(hero) hero.style.backgroundColor = base;
-    if(band) band.style.backgroundColor = darker;
-    document.body.style.backgroundColor = base;
-  }
+function computeStemForYMD(y,m,d){
+  const jdn=jdnFromYMD(y,m,d);
+  let idx=stemIndexFromJDN(jdn);
+  if(y===CAL_OVERRIDE.y && m===CAL_OVERRIDE.m && d===CAL_OVERRIDE.d){ idx = STEM_INDEX[CAL_OVERRIDE.dayStem]; }
+  const s=STEM_TABLE[idx];
+  return {element:s.e,polarity:s.p,key:s.key,idx,jdn};
+}
 
+function parseInputYMD(v){ try{ const [y,m,d]=v.split('-').map(n=>parseInt(n,10)); return {y,m,d}; }catch(_){ return null; } }
 
-  // Handlers
-  $id('calculateDayMaster').addEventListener('click', ()=>{
-    const input=$id('birthDate');
-    const err=$id('dayMasterError');
-    err.textContent='';
-    if(!input.value){ err.textContent='Ingresa tu fecha.'; return; }
-    const ymd = parseInputYMD(input.value);
-    if(!ymd || !ymd.y || !ymd.m || !ymd.d){ err.textContent='Fecha inválida.'; return; }
-    const stem = computeStemForYMD(ymd.y, ymd.m, ymd.d);
-    __lastStem = { element: stem.element, polarity: stem.polarity };
-    hydrateResult(__lastStem);
-    showScreen('result');
-  });
+// =================== 10 DIOSES (NÚMEROS) ===================
+const ELEM_ORDER=['Madera','Fuego','Tierra','Metal','Agua'];
+function elemIndex(e){return ELEM_ORDER.indexOf(e);} // 0..4
+function relation(dmElem, otherElem){
+  const di=elemIndex(dmElem), oi=elemIndex(otherElem);
+  if(di===-1||oi===-1) return 'peer';
+  if(oi===di) return 'peer';                 // mismo elemento
+  if((di+1)%5===oi) return 'output';         // DM engendra
+  if((di+2)%5===oi) return 'wealth';         // DM controla al otro
+  if((di+3)%5===oi) return 'power';          // otro controla al DM
+  if((di+4)%5===oi) return 'resource';       // otro engendra a DM
+  return 'peer';
+}
+function computeGodCode(dmStemKey, targetStemKey){
+  const dm=STEM_TABLE[STEM_INDEX[dmStemKey]], tg=STEM_TABLE[STEM_INDEX[targetStemKey]];
+  const di=elemIndex(dm.e), ti=elemIndex(tg.e);
+  const samePol = dm.p === tg.p;
+  // Peer
+  if(di===ti){ return samePol ? 1 : 2; }            // 1 Alma / 2 Robo Riqueza
+  // Output (DM engendra al otro)
+  if((di+1)%5===ti){ return samePol ? 3 : 4; }      // 3 Comiendo Dios / 4 Oficial herido
+  // Resource (el otro engendra al DM)
+  if((di+4)%5===ti){ return samePol ? 9 : 10; }     // 9 Recurso Indirecto / 10 Recurso Directo
+  // Wealth (DM controla al otro)
+  if((di+2)%5===ti){ return samePol ? 5 : 6; }      // 5 Dinero Indirecto / 6 Dinero Directo
+  // Power (el otro controla al DM)
+  if((di+3)%5===ti){ return samePol ? 8 : 7; }      // 8 Siete Muertes / 7 Oficial Directo
+  return 2;
+}
+// =================== COPY POR ELEMENTO ===================
+function getCopy(){
+  const R={}; const put=(e,p,desc,pos,neg,hook)=>R[`${e}|${p}`]={desc,pos,neg,hook};
+  put('Fuego','Yang','Chispa, fiesta y pura luz. Calientas habitaciones y contagias entusiasmo.', ['Carisma que atrae','Expresivo y cercano','Enciende proyectos'], ['Se agota por exceso','Impulsivo al decidir'], 'Si tu alegría fuera inspiración para los demás, ¿qué la haría brillar hoy?');
+  put('Fuego','Yin','Brillo suave y cautivador. Calidez constante que toca corazones.', ['Empático','Intuitivo','Inspirador con sutileza'], ['Hipersensible','Se sobrecarga fácil'], '¿Qué chispa pequeña enciende tu gran idea?');
+  put('Madera','Yang','Energía de primavera: crecer, liderar y abrir caminos.', ['Iniciativa natural','Creativo en acción','Visionario'], ['Terco al avanzar','Ira súbita'], 'Si plantas esa idea hoy, ¿hasta dónde la dejas crecer?');
+  put('Madera','Yin','Flexible e ingeniosa: te adaptas y floreces.', ['Diplomacia','Creatividad delicada','Aprendiz veloz'], ['Evita el conflicto','Se dispersa'], '¿Qué rama podas para que todo florezca?');
+  put('Tierra','Yang','Base y centro. Sostienes equipos y proyectos.', ['Confiable','Práctico','Mediador'], ['Sobrepiensa','Le cuesta moverse'], '¿Qué te ancla cuando todo gira?');
+  put('Tierra','Yin','Cálida y paciente. Das estructura sin rigidez.', ['Cuida y ordena','Memoria confiable','Equilibrio sereno'], ['Preocupación crónica','Perfeccionismo'], '¿Qué semilla cuidas hoy para mañana?');
+  put('Metal','Yang','Precisión y justicia. Mente afilada que corta lo innecesario.', ['Enfoque láser','Alta ética','Decisiones claras'], ['Rigidez','Distancia emocional'], 'Si pudieras editar tu vida, ¿qué recortas primero?');
+  put('Metal','Yin','Belleza y detalle. Ordenas con sutileza.', ['Buen criterio','Estética cuidada','Comunicación fina'], ['Autoexigencia','Duda en exceso'], '¿Qué brillo suave te haría sentir ligero?');
+  put('Agua','Yang','Fuerza imparable: río caudaloso que avanza y se adapta.', ['Visión estratégica','Explorador nato','Aprende rápido'], ['Incertidumbre interna','Cambia demasiado'], '¿Fluyes con la corriente o creas tu propia ola?');
+  put('Agua','Yin','Profunda e introspectiva: corriente tranquila que guía.', ['Escucha profunda','Alta intuición','Gran memoria'], ['Miedo a decidir','Se diluye'], 'Si tu vida fuera un lago, ¿qué reflejas hoy?');
+  return R;
+}
 
-  $id('backButton').addEventListener('click', (e)=>{ e.preventDefault(); document.body.style.backgroundColor=''; showScreen('landing'); });
-
-  // Share (usa html2canvas ya cargado)
-  const shareBtn = $id('shareCardBtn');
-  const shareFeedback = $id('share-feedback');
-  const SHARE_W=1080, SHARE_H=1920, SHARE_MARGIN=0.08;
-  async function composeShareCanvas(container, bg){
-    // Render DOM → canvas fuente
-    const srcCanvas = await window.html2canvas(container, { backgroundColor: bg, scale: 2, useCORS: true });
-
-    // Lienzo final 1080x1920
-    const out = document.createElement('canvas');
-    const ctx = out.getContext('2d');
-    out.width = SHARE_W; out.height = SHARE_H;
-
-    // Fondo sólido del elemento
-    ctx.fillStyle = bg; ctx.fillRect(0,0,SHARE_W,SHARE_H);
-
-    // Ajuste de la tarjeta al lienzo final con margen
-    const targetW=SHARE_W*(1-SHARE_MARGIN*2), targetH=SHARE_H*(1-SHARE_MARGIN*2);
-    const scale=Math.min(targetW/srcCanvas.width, targetH/srcCanvas.height);
-    const drawW=Math.round(srcCanvas.width*scale), drawH=Math.round(srcCanvas.height*scale);
-    const dx=Math.round((SHARE_W-drawW)/2), dy=Math.round((SHARE_H-drawH)/2);
-    ctx.drawImage(srcCanvas,dx,dy,drawW,drawH);
-    // === Overlay: tag IG + derechos ===
-    const year = new Date().getFullYear();
-    const line1 = '@comedia.elemental';
-    const line2 = `© ${year} Marcy.Bing — Todos los derechos reservados`;
-    const textSize = Math.round(Math.min(SHARE_W, SHARE_H)*0.028);
-    const lh = Math.round(textSize*1.25);
-    const padX = 24, padY = 14, gap = 6, r = 14;
-
-    // helper de rectángulo redondeado inline
-    const rounded = (x,y,w,h,rad,fill)=>{ ctx.beginPath(); ctx.moveTo(x+rad,y); ctx.arcTo(x+w,y,x+w,y+h,rad); ctx.arcTo(x+w,y+h,x,y+h,rad); ctx.arcTo(x,y+h,x,y,rad); ctx.arcTo(x,y,x+w,y,rad); ctx.closePath(); ctx.fillStyle=fill; ctx.fill(); };
-
-    ctx.save();
-    ctx.font = `500 ${textSize}px Inter, system-ui, sans-serif`;
-    ctx.fillStyle = '#ffffff';
-    ctx.textBaseline = 'top';
-    const w1 = ctx.measureText(line1).width;
-    const w2 = ctx.measureText(line2).width;
-    const bw = Math.max(w1, w2);
-    const blockW = Math.round(bw + padX*2);
-    const blockH = Math.round(lh*2 + gap + padY*2);
-    const x = Math.round((SHARE_W - blockW)/2);
-    const y = SHARE_H - blockH - 40;
-    rounded(x, y, blockW, blockH, r, 'rgba(0,0,0,0.35)');
-    ctx.fillText(line1, x + padX, y + padY);
-    ctx.fillText(line2, x + padX, y + padY + lh + gap);
-    ctx.restore();
-
-    return out;
-  }
-  shareBtn?.addEventListener('click', async ()=>{
-    try{
-      if(!__lastStem) throw new Error('Calcula tu elemento primero');
-      if(shareFeedback) shareFeedback.textContent='Generando tarjeta...';
-      const container=$id('result-content-container');
-      const bg=elementPalette[__lastStem.element] || '#111827';
-      const out=await composeShareCanvas(container,bg);
-      out.toBlob(async (blob)=>{
-        try{
-          if(!blob) throw new Error('No se pudo crear imagen');
-          const filename=`bazi_story_${(__lastStem.element||'elemento').toLowerCase()}_${(__lastStem.polarity||'').toLowerCase()}.png`;
-          const file=new File([blob], filename, {type:'image/png'});
-          if(navigator.canShare && navigator.canShare({files:[file]})){
-            await navigator.share({files:[file], title:'Mi elemento Bazi', text:`Mi elemento ${__lastStem.element} ${__lastStem.polarity}`});
-            if(shareFeedback) shareFeedback.textContent='Compartido ✅';
-          }else{
-            const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-            if(shareFeedback) shareFeedback.textContent='Descargado ✅';
-          }
-        }catch(err){
-          console.error(err);
-          if(shareFeedback) shareFeedback.textContent='No se pudo compartir. Descargando…';
-          const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='bazi_story.png'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-        }
-      }, 'image/png');
-    }catch(err){ console.error(err); if(shareFeedback) shareFeedback.textContent = err.message || 'Error al compartir'; }
-  });
-
-  // Stubs para compatibilidad de tests existentes
-  async function displayCounter(){}
-  // Poblamos copyright del resultado
-  setText('copyright-text','Copyright 2025 - Marcy Bing. All rights reserved.');
-  console.assert(typeof displayCounter==='function','displayCounter definido');
-  // Test de calibración solicitado: 2025-09-07 debe ser Tierra Yin
-  (function(){
-    const t = computeStemForYMD(2025,9,7);
-    console.assert(t.element==='Tierra' && t.polarity==='Yin', 'Calibración OK: 2025-09-07 → Tierra Yin');
-  })();
-  console.assert(!!$id('calculator-screen'),'calculator-screen existe');
-  console.assert(!!$id('shareCardBtn'),'share button existe');
-  // Verificación imagen
+// =================== HIDRATAR RESULTADO ===================
+function hydrateResult(stem){
+  if(!stem) return;
+  const element=stem.element||'', polarity=stem.polarity||'';
   
-  // checks de enlaces y copyright
-  console.assert(document.querySelector('#calculator-screen a[href*="wa.me"]'),'WhatsApp en landing');
-  console.assert(document.querySelector('#calculator-screen a[href*="instagram.com/comedia.elemental"]'),'Instagram en landing');
-  console.assert(document.querySelector('#result-actions a[href*="wa.me"]'),'WhatsApp en resultado');
-  console.assert(document.querySelector('#result-actions a[href*="instagram.com/comedia.elemental"]'),'Instagram en resultado');
-  console.assert(!!$id('copyright-result'),'wrapper copyright resultado');
-  console.assert(!!$id('copyright-text') && $id('copyright-text').textContent.includes('2025'),'copyright poblado');
-</script>
+  setText('result-title-element', element||'');
+  const polCap = polarity ? polarity.charAt(0).toUpperCase() + polarity.slice(1).toLowerCase() : '';
+  setText('result-subpolarity', polCap);
+
+  const COPY=getCopy(); const C=COPY[`${element}|${polarity}`]||{desc:'',pos:[],neg:[],hook:''};
+  setText('result-description', C.desc);
+  renderList('result-strengths-list', C.pos);
+  renderList('result-challenge-list', C.neg);
+  setText('result-viral', C.hook);
+
+  const baseRaw=(elementPalette[element]||'#111827').trim();
+  const shade=(hex,amt)=>{ if(!/^#([0-9a-fA-F]{6})$/.test(hex)) return hex; let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); r=Math.max(0,Math.min(255,r+amt)); g=Math.max(0,Math.min(255,g+amt)); b=Math.max(0,Math.min(255,b+amt)); const h=v=>v.toString(16).padStart(2,'0'); return `#${h(r)}${h(g)}${h(b)}`; };
+  const adjustForPolarity=(hex,pol)=> pol==='Yin' ? shade(hex,28) : hex; // Yin = 2 tonos más claros (~2x14)
+  const base=adjustForPolarity(baseRaw, polarity);
+  const darker=shade(base,-22);
+  const hero=$id('result-hero'), band=$id('result-band');
+  if(hero) hero.style.backgroundColor=base;
+  if(band) band.style.backgroundColor=darker;
+  document.body.style.backgroundColor=base;
+
+  // colorear subcuadros de MES y AÑO según su elemento de tallo
+  const applyCardColor=(cardEl,hex)=>{ if(!cardEl) return; 
+    const lum=(h)=>{ const r=parseInt(h.slice(1,3),16)/255, g=parseInt(h.slice(3,5),16)/255, b=parseInt(h.slice(5,7),16)/255; const a=[r,g,b].map(v=>v<=0.03928? v/12.92: Math.pow((v+0.055)/1.055,2.4)); return 0.2126*a[0]+0.7152*a[1]+0.0722*a[2]; };
+    const textColor = lum(hex) > 0.6 ? '#111' : '#fff';
+    cardEl.style.background = hex;
+    cardEl.style.borderColor = hex;
+    cardEl.style.color = textColor;
+    cardEl.querySelectorAll('.hk').forEach(el=>{ el.style.color=textColor; el.style.borderColor = textColor==='#fff' ? 'rgba(255,255,255,.75)' : 'rgba(0,0,0,.55)'; el.style.backgroundColor = textColor==='#fff' ? 'rgba(0,0,0,.25)' : 'rgba(255,255,255,.25)'; });
+    cardEl.querySelectorAll('.hn-num').forEach(el=>{ el.style.background = textColor; el.style.color = textColor==='#fff' ? '#111' : '#fff'; });
+  };
+
+  const msb=computeMonthStemBranch(__lastYMD.y,__lastYMD.m,__lastYMD.d);
+  const ysb=computeYearStemBranch(__lastYMD.y,__lastYMD.m,__lastYMD.d);
+  const mStem=STEM_TABLE[msb.stemIdx];
+  const yStem=STEM_TABLE[ysb.stemIdx];
+  applyCardColor($id('m-card'), adjustForPolarity((elementPalette[mStem.e]||base), mStem.p));
+  applyCardColor($id('y-card'), adjustForPolarity((elementPalette[yStem.e]||base), yStem.p));
+
+  if(__lastYMD){
+    const {y,m,d}=__lastYMD;
+    const ysb2=computeYearStemBranch(y,m,d);
+    const msb2=computeMonthStemBranch(y,m,d);
+    setText('y-stem', `${STEM_TABLE[ysb2.stemIdx].e} ${STEM_TABLE[ysb2.stemIdx].p}`);
+    setText('m-stem', `${STEM_TABLE[msb2.stemIdx].e} ${STEM_TABLE[msb2.stemIdx].p}`);
+    renderHiddenMatrix('y-hidden', ysb2.branch.hidden, stem.key);
+    renderHiddenMatrix('m-hidden', msb2.branch.hidden, stem.key);
+    $id('y-gods').innerHTML=''; $id('m-gods').innerHTML='';
+    // re-aplica color ahora que los chips existen
+    applyCardColor($id('m-card'), adjustForPolarity((elementPalette[mStem.e]||base), mStem.p));
+    applyCardColor($id('y-card'), adjustForPolarity((elementPalette[yStem.e]||base), yStem.p));
+  }
+
+  const yearNow=new Date().getFullYear();
+  setText('result-footer-note','@bandita.elemental');
+  setText('copyright-text',`© ${yearNow} Marcy Bing. All rights reserved.`);
+}
+
+function renderList(id, arr){ const ul=$id(id); if(!ul) return; ul.innerHTML=''; (arr||[]).forEach(t=>{const li=document.createElement('li'); li.textContent=t; ul.appendChild(li);}); }
+function renderGodNums(id, arr){
+  // ya no se usa en la UI; lo dejamos por compatibilidad
+  const box=$id(id); if(!box) return; box.innerHTML='';
+  (arr||[]).forEach(()=>{});
+}
+function renderHiddenMatrix(targetId, stemsArr, dmKey){
+  const el=$id(targetId); if(!el) return;
+  const arr=Array.isArray(stemsArr)?stemsArr.slice(0):[];
+  let order=arr;
+  if(arr.length===3){ order=[arr[1],arr[0],arr[2]]; } // primario (idx0) al centro
+  else if(arr.length===2){ order=[arr[1],arr[0]]; }  // si hay dos, primario (idx0) a la derecha/centro
+  else if(arr.length===1){ order=[arr[0]]; }
+  const isPrimary=(k)=>k===arr[0];
+  const col=(k)=>{
+    const stem=STEM_TABLE[STEM_INDEX[k]]; const num=computeGodCode(dmKey,k);
+    const cls=isPrimary(k)?'hk primary':'hk';
+    return `<div class="hn-col"><span class="${cls}">${stem.e} ${stem.p}</span><div class="hn-num">${num}</div></div>`;
+  };
+  const cols=order.map(col).join('');
+  el.innerHTML=`<div class="hidden-matrix">${cols}</div>`;
+}
+
+// =================== EVENTOS ===================
+$id('calculateDayMaster').addEventListener('click', ()=>{
+  const input=$id('birthDate'); const err=$id('dayMasterError'); err.textContent='';
+  if(!input.value){ err.textContent='Ingresa tu fecha.'; return; }
+  const ymd=parseInputYMD(input.value); if(!ymd||!ymd.y||!ymd.m||!ymd.d){ err.textContent='Fecha inválida.'; return; }
+  const stem=computeStemForYMD(ymd.y, ymd.m, ymd.d);
+  __lastStem={element:stem.element,polarity:stem.polarity,key:stem.key}; __lastYMD=ymd;
+  hydrateResult(__lastStem); showScreen('result');
+});
+
+$id('backButton').addEventListener('click',(e)=>{ e.preventDefault(); document.body.style.backgroundColor=''; showScreen('landing'); });
+
+// =================== COMPARTIR ===================
+const shareBtn=$id('shareCardBtn'), shareFeedback=$id('share-feedback');
+const SHARE_W=1080, SHARE_H=1920, SHARE_MARGIN=0.08;
+function canvasToBlob(canvas, type='image/jpeg', quality=0.9){ return new Promise((res)=>canvas.toBlob(res,type,quality)); }
+async function composeShareCanvas(container,bg){
+  const srcCanvas=await window.html2canvas(container,{backgroundColor:bg,scale:2,useCORS:true});
+  const out=document.createElement('canvas'); const ctx=out.getContext('2d'); out.width=SHARE_W; out.height=SHARE_H; ctx.fillStyle=bg; ctx.fillRect(0,0,SHARE_W,SHARE_H);
+  const targetW=SHARE_W*(1-SHARE_MARGIN*2), targetH=SHARE_H*(1-SHARE_MARGIN*2);
+  const scale=Math.min(targetW/srcCanvas.width, targetH/srcCanvas.height);
+  const drawW=Math.round(srcCanvas.width*scale), drawH=Math.round(srcCanvas.height*scale);
+  const dx=Math.round((SHARE_W-drawW)/2), dy=Math.round((SHARE_H-drawH)/2); ctx.drawImage(srcCanvas,dx,dy,drawW,drawH);
+  const year=new Date().getFullYear(); const line1='@bandita.elemental'; const line2=`© ${year} Marcy.Bing — Todos los derechos reservados`;
+  const textSize=Math.round(Math.min(SHARE_W,SHARE_H)*0.028), lh=Math.round(textSize*1.25); const padX=24,padY=14,gap=6,r=14;
+  const rounded=(x,y,w,h,rad,fill)=>{ctx.beginPath();ctx.moveTo(x+rad,y);ctx.arcTo(x+w,y,x+w,y+h,rad);ctx.arcTo(x+w,y+h,x,y+h,rad);ctx.arcTo(x,y+h,x,y,rad);ctx.arcTo(x,y,x+w,y,rad);ctx.closePath();ctx.fillStyle=fill;ctx.fill();};
+  ctx.save(); ctx.font=`500 ${textSize}px Inter, system-ui, sans-serif`; ctx.fillStyle='#ffffff'; ctx.textBaseline='top'; const w1=ctx.measureText(line1).width, w2=ctx.measureText(line2).width; const bw=Math.max(w1,w2); const blockW=Math.round(bw+padX*2), blockH=Math.round(lh*2+gap+padY*2); const x=Math.round((SHARE_W-blockW)/2), y=SHARE_H-blockH-40; rounded(x,y,blockW,blockH,r,'rgba(0,0,0,0.35)'); ctx.fillText(line1,x+padX,y+padY); ctx.fillText(line2,x+padX,y+padY+lh+gap); ctx.restore(); return out;
+}
+if(shareBtn) shareBtn.addEventListener('click', async ()=>{
+  try{
+    if(!__lastStem) throw new Error('Calcula tu elemento primero');
+    if(shareFeedback) shareFeedback.textContent='Generando tarjeta...';
+    const container=$id('result-content-container'); const bg=elementPalette[__lastStem.element]||'#111827';
+    const out=await composeShareCanvas(container,bg); const blob=await canvasToBlob(out,'image/jpeg',0.9);
+    const filename=`bazi_story_${(__lastStem.element||'elemento').toLowerCase()}_${(__lastStem.polarity||'').toLowerCase()}.jpg`;
+    const file=new File([blob], filename, {type:'image/jpeg'});
+    const canNative=!!navigator.canShare && navigator.canShare({files:[file]}) && window.isSecureContext;
+    if(canNative){ await navigator.share({files:[file],title:'Mi elemento BaZi',text:`Mi elemento ${__lastStem.element} ${__lastStem.polarity}`}); shareFeedback.textContent='Compartido ✅'; }
+    else{ const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); shareFeedback.textContent='Descargado ✅'; }
+  }catch(err){ console.error(err); shareFeedback.textContent='No se pudo compartir: '+(err?.message||''); }
+});
+
+// =================== TESTS RÁPIDOS ===================
+(function selfTests(){
+  // Sanity parse
+  console.assert(parseInputYMD('2025-10-14').y===2025, 'parseInputYMD falla');
+  // Verifica calibración de HOY contra lo solicitado
+  const {y,m,d}=CAL_OVERRIDE;
+  const sDay=computeStemForYMD(y,m,d);
+  const sMonth=computeMonthStemBranch(y,m,d);
+  const sYear=computeYearStemBranch(y,m,d);
+  console.log('[CHECK today]', {
+    day:sDay.key,
+    monthStem: STEM_TABLE[sMonth.stemIdx].key, monthBranch: BRANCHES[sMonth.branchIdx].key,
+    yearStem: STEM_TABLE[sYear.stemIdx].key, yearBranch: BRANCHES[sYear.branchIdx].key
+  });
+  // Esperados: Bing (día), Bing/Xu (mes), Yi/Si (año)
+  console.assert(sDay.key==='Bing', 'Día no es Bing (Fuego Yang)');
+  console.assert(STEM_TABLE[sMonth.stemIdx].key==='Bing', 'Mes no es Bing (Fuego Yang)');
+  console.assert(BRANCHES[sMonth.branchIdx].key==='Xu', 'Mes no es Xu (Perro)');
+  console.assert(STEM_TABLE[sYear.stemIdx].key==='Yi', 'Año no es Yi (Madera Yin)');
+  console.assert(BRANCHES[sYear.branchIdx].key==='Si', 'Año no es Si (Serpiente)');
+  // Verificación de 10 dioses para DM Fuego Yang (Bing)
+  console.assert(computeGodCode('Bing','Wu')===3, 'Fallo: Tierra Yang debería ser 3 (Output mismo polo)');
+  console.assert(computeGodCode('Bing','Xin')===6, 'Fallo: Metal Yin debería ser 6 (Wealth opuesto)');
+  console.assert(computeGodCode('Bing','Ding')===2, 'Fallo: Fuego Yin debería ser 2 (RR)');
+  // Extra tests por tu ejemplo 1987-07-16 (Ding/Wei ocultos: Ding, Ji, Yi)
+  console.assert(computeGodCode('Bing','Ding')===2, '1987-07-16: Ding debe ser 2');
+  console.assert(computeGodCode('Bing','Ji')===4, '1987-07-16: Ji debe ser 4');
+  console.assert(computeGodCode('Bing','Yi')===10, '1987-07-16: Yi debe ser 10');
+})();
+  </script>
 </body>
 </html>
-
-
 
