@@ -1,2 +1,2 @@
-# cal_elemental
+Bandita Elemental
 Descubre tu elemento
