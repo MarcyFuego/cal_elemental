@@ -274,17 +274,18 @@ function computeMonthStemBranch_raw(y,m,d){
 }
 
 // =================== CALIBRACIÓN ===================
-const CAL_OVERRIDE = (()=>{
-  const now=new Date();
-  const y=now.getFullYear(), m=now.getMonth()+1, d=now.getDate();
-  // Calibración solicitada para HOY: Día Dragón de Fuego Yang, Mes Perro de Fuego Yang, Año Serpiente de Madera Yin
-  return {
-    y, m, d,
-    dayStem:'Bing', dayBranch:'Chen',   // Dragón de Fuego Yang
-    monthStem:'Bing', monthBranch:'Xu', // Perro de Fuego Yang
-    yearStem:'Yi',  yearBranch:'Si'     // Serpiente de Madera Yin
-  };
-})();
+const CAL_OVERRIDE = {
+  // Calibración fija solicitada: 2025-10-15 (hoy) = Día Fuego Yin (Ding)
+  // 2025-10-14 (ayer) = Día Fuego Yang (Bing)
+  // Mes = Perro de Fuego Yang (Bing/Xu), Año = Serpiente de Madera Yin (Yi/Si)
+  y: 2025,
+  m: 10,
+  d: 15,
+  dayStem: 'Ding',
+  dayBranch: null,
+  monthStem: 'Bing', monthBranch: 'Xu',
+  yearStem: 'Yi',  yearBranch: 'Si'
+};
 let DAY_STEM_OFFSET = 0;  // se define en calibrateOffsets()
 let MONTH_STEM_SHIFT = 0; // corrige el tallo mensual
 function stemIndexFromJDN(jdn){ return ((jdn + DAY_STEM_OFFSET) % 10 + 10) % 10; }
@@ -503,6 +504,7 @@ if(shareBtn) shareBtn.addEventListener('click', async ()=>{
   // Verifica calibración de HOY contra lo solicitado
   const {y,m,d}=CAL_OVERRIDE;
   const sDay=computeStemForYMD(y,m,d);
+  const prevDayTest=computeStemForYMD(y,m,d-1);
   const sMonth=computeMonthStemBranch(y,m,d);
   const sYear=computeYearStemBranch(y,m,d);
   console.log('[CHECK today]', {
@@ -510,8 +512,9 @@ if(shareBtn) shareBtn.addEventListener('click', async ()=>{
     monthStem: STEM_TABLE[sMonth.stemIdx].key, monthBranch: BRANCHES[sMonth.branchIdx].key,
     yearStem: STEM_TABLE[sYear.stemIdx].key, yearBranch: BRANCHES[sYear.branchIdx].key
   });
-  // Esperados: Bing (día), Bing/Xu (mes), Yi/Si (año)
-  console.assert(sDay.key==='Bing', 'Día no es Bing (Fuego Yang)');
+  // Esperados: Ding (hoy), Bing (ayer), Mes Bing/Xu, Año Yi/Si
+  console.assert(sDay.key==='Ding', 'Hoy no es Ding (Fuego Yin)');
+  console.assert(prevDayTest.key==='Bing', 'Ayer no fue Bing (Fuego Yang)');
   console.assert(STEM_TABLE[sMonth.stemIdx].key==='Bing', 'Mes no es Bing (Fuego Yang)');
   console.assert(BRANCHES[sMonth.branchIdx].key==='Xu', 'Mes no es Xu (Perro)');
   console.assert(STEM_TABLE[sYear.stemIdx].key==='Yi', 'Año no es Yi (Madera Yin)');
